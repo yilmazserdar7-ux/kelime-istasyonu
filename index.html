@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kelime İstasyonu PWA</title>
+    
+    <!-- PWA ve iOS Tam Ekran Ayarları -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Kelimeİstasyonu">
+    
+    <!-- PWA Web Manifest (Inline Data URI ile Harici Dosyasız Çözüm) -->
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Kelime%20Istasyonu%22%2C%22short_name%22%3A%22KelimeIst%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage/svg+xml%2C%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20512%20512%27%3E%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27100%27%20fill%3D%27%2338bdf8%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2765%25%27%20font-size%3D%27260%27%20font-weight%3D%27bold%27%20fill%3D%27%230f172a%27%20text-anchor%3D%27middle%27%3EEN%3C/text%3E%3C/svg%3E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image/svg+xml%22%2D%7D%5D%7D">
+
+    <!-- Apple Touch Icon (iOS Ana Ekran Logosu) -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%2338bdf8'/%3E%3Ctext x='50%25' y='65%25' font-size='260' font-weight='bold' fill='%230f172a' text-anchor='middle'%3EEN%3C/text%3E%3C/svg%3E">
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 20px padding-top: calc(20px + env(safe-area-inset-top));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .container { width: 100%; max-width: 450px; text-align: center; }
+        h1 { font-size: 24px; margin: 10px 0; color: #f8fafc; }
+        
+        .stats {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+            font-size: 13px;
+            border: 1px solid #334155;
+        }
+        .stats span { display: block; font-size: 18px; font-weight: bold; color: #38bdf8; }
+
+        .tabs { display: flex; gap: 6px; margin-bottom: 20px; }
+        .tab-btn {
+            flex: 1; background: #334155; border: none; color: #fff;
+            padding: 12px 5px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;
+            transition: background 0.2s;
+        }
+        .tab-btn.active { background: #38bdf8; color: #0f172a; }
+
+        .card-box {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 20px;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .word-title { font-size: 36px; font-weight: bold; margin: 0; color: #fff; }
+        .word-sub { font-size: 20px; color: #38bdf8; margin: 12px 0 0 0; display: none; font-weight: 600; }
+        .word-pron { font-size: 14px; color: #94a3b8; margin: 5px 0 0 0; font-style: italic; display: none; }
+        .badge { font-size: 11px; background: rgba(56, 189, 248, 0.1); padding: 4px 10px; border-radius: 12px; margin-top: 12px; color: #38bdf8; font-weight: 600; }
+
+        .controls { display: flex; gap: 12px; width: 100%; }
+        .btn {
+            flex: 1; padding: 16px 10px; border: none; border-radius: 14px;
+            font-size: 15px; font-weight: bold; cursor: pointer; color: white;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-show { background: #475569; }
+        .btn-ok { background: #10b981; }
+        .btn-next { background: #38bdf8; color: #0f172a; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Kelime İstasyonu</h1>
+    
+    <div class="stats">
+        <div>Havuz<span id="s-tot">0</span></div>
+        <div>Öğrenilen<span id="s-lrn">0</span></div>
+        <div>Kalan<span id="s-rem">0</span></div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="setCat('giris', this)">GİRİŞ</button>
+        <button class="tab-btn" onclick="setCat('orta', this)">ORTA</button>
+        <button class="tab-btn" onclick="setCat('ileri', this)">İLERİ</button>
+        <button class="tab-btn" onclick="setCat('teknik', this)">TEKNİK</button>
+    </div>
+
+    <div class="card-box" onclick="showAnswer()">
+        <div class="word-title" id="w-en">-</div>
+        <div class="badge" id="w-lvl">-</div>
+        <div class="word-sub" id="w-tr">-</div>
+        <div class="word-pron" id="w-pron">-</div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-show" onclick="showAnswer()">Anlamı</button>
+        <button class="btn btn-ok" onclick="markLrn()">✔ Bildim</button>
+        <button class="btn btn-next" onclick="nextW()">Sonraki ➔</button>
+    </div>
+</div>
+
+<script>
+    // Genişletilmiş Kelime Havuzu
+    const db = {
+        giris: [
+            { en: "Water", tr: "Su", pron: "votır", lvl: "A1-A2" },
+            { en: "Time", tr: "Zaman / Süre", pron: "taym", lvl: "A1-A2" },
+            { en: "Day", tr: "Gün", pron: "dey", lvl: "A1-A2" },
+            { en: "Friend", tr: "Arkadaş", pron: "frend", lvl: "A1-A2" },
+            { en: "House", tr: "Ev", pron: "havs", lvl: "A1-A2" },
+            { en: "Work", tr: "Çalışmak / İş", pron: "vörk", lvl: "A1-A2" },
+            { en: "City", tr: "Şehir", pron: "siti", lvl: "A1-A2" }
+        ],
+        orta: [
+            { en: "Analyze", tr: "Analiz etmek", pron: "enılayz", lvl: "B1-B2" },
+            { en: "Develop", tr: "Geliştirmek", pron: "divelop", lvl: "B1-B2" },
+            { en: "Project", tr: "Proje", pron: "procekt", lvl: "B1-B2" },
+            { en: "Support", tr: "Desteklemek", pron: "soport", lvl: "B1-B2" },
+            { en: "Requirement", tr: "Gereksinim / Şart", pron: "rikuayırmınt", lvl: "B1-B2" }
+        ],
+        ileri: [
+            { en: "Accurate", tr: "Kesin, hatasız, tam", pron: "ekyurıt", lvl: "C1-C2" },
+            { en: "Predict", tr: "Tahmin etmek", pron: "pridikt", lvl: "C1-C2" },
+            { en: "Sustainable", tr: "Sürdürülebilir", pron: "sosteynıbıl", lvl: "C1-C2" },
+            { en: "Implement", tr: "Uygulamaya koymak", pron: "impliment", lvl: "C1-C2" }
+        ],
+        teknik: [
+            { en: "Calculation", tr: "Hesaplama", pron: "kelkyuleyşın", lvl: "Teknik" },
+            { en: "Coordinate", tr: "Koordinat", pron: "koordinıyt", lvl: "Teknik" },
+            { en: "Elevation", tr: "Yükseklik / Rakım", pron: "eliveyşın", lvl: "Teknik" },
+            { en: "Surveying", tr: "Haritacılık / Arazi Ölçümü", pron: "sörveying", lvl: "Teknik" },
+            { en: "Expropriation", tr: "Kamulaştırma", pron: "ekspropriyeşın", lvl: "Teknik" },
+            { en: "Interface", tr: "Arayüz", pron: "intırfeys", lvl: "Teknik" },
+            { en: "Execute", tr: "Çalıştırmak (Kod)", pron: "eksikyut", lvl: "Teknik" },
+            { en: "Interval", tr: "Aralık (Zaman/Veri)", pron: "intırvıl", lvl: "Teknik" }
+        ]
+    };
+
+    let cat = 'giris', idx = -1, lrn = JSON.parse(localStorage.getItem('pwa_lrn')) || {giris:[],orta:[],ileri:[],teknik:[]};
+
+    function setCat(c, el) {
+        cat = c;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        resetCard();
+        nextW();
+    }
+
+    function showAnswer() {
+        document.getElementById('w-tr').style.display = 'block';
+        document.getElementById('w-pron').style.display = 'block';
+    }
+
+    function resetCard() {
+        document.getElementById('w-tr').style.display = 'none';
+        document.getElementById('w-pron').style.display = 'none';
+    }
+
+    function nextW() {
+        resetCard();
+        const avail = db[cat].filter(w => !lrn[cat].includes(w.en));
+        updateStats();
+        
+        if (avail.length === 0) {
+            document.getElementById('w-en').innerText = "Bitti! 🎉";
+            document.getElementById('w-lvl').innerText = "-";
+            idx = -1;
+            return;
+        }
+        
+        const w = avail[Math.floor(Math.random() * avail.length)];
+        idx = db[cat].findIndex(x => x.en === w.en);
+        
+        document.getElementById('w-en').innerText = w.en;
+        document.getElementById('w-lvl').innerText = w.lvl;
+        document.getElementById('w-tr').innerText = w.tr;
+        document.getElementById('w-pron').innerText = `[${w.pron}]`;
+    }
+
+    function markLrn() {
+        if (idx === -1) return;
+        const w = db[cat][idx].en;
+        if (!lrn[cat].includes(w)) {
+            lrn[cat].push(w);
+            localStorage.setItem('pwa_lrn', JSON.stringify(lrn));
+        }
+        nextW();
+    }
+
+    function updateStats() {
+        document.getElementById('s-tot').innerText = db[cat].length;
+        document.getElementById('s-lrn').innerText = lrn[cat].length;
+        document.getElementById('s-rem').innerText = db[cat].length - lrn[cat].length;
+    }
+
+    // İçi boş, PWA gereksinimi için Inline Service Worker
+    if ('serviceWorker' in navigator) {
+        const swCode = "self.addEventListener('fetch', function(e){});";
+        const blob = new Blob([swCode], {type: 'application/javascript'});
+        navigator.serviceWorker.register(URL.createObjectURL(blob));
+    }
+
+    updateStats(); nextW();
+</script>
+</body>
+</html>
