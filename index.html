@@ -2,18 +2,19 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Kelime İstasyonu PWA</title>
     
-    <!-- PWA ve iOS Tam Ekran Ayarları -->
+    <!-- 🚀 TARAYICI ÇUBUKLARINI GİZLEYEN KRİTİK AYARLAR (iOS TAM EKRAN MODU) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Kelimeİstasyonu">
+    <meta name="mobile-web-app-capable" content="yes">
     
-    <!-- PWA Web Manifest (Inline Data URI ile Harici Dosyasız Çözüm) -->
+    <!-- PWA Web Manifest -->
     <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Kelime%20Istasyonu%22%2C%22short_name%22%3A%22KelimeIst%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage/svg+xml%2C%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20512%20512%27%3E%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27100%27%20fill%3D%27%2338bdf8%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2765%25%27%20font-size%3D%27260%27%20font-weight%3D%27bold%27%20fill%3D%27%230f172a%27%20text-anchor%3D%27middle%27%3EEN%3C/text%3E%3C/svg%3E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image/svg+xml%22%2D%7D%5D%7D">
 
-    <!-- Apple Touch Icon (iOS Ana Ekran Logosu) -->
+    <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%2338bdf8'/%3E%3Ctext x='50%25' y='65%25' font-size='260' font-weight='bold' fill='%230f172a' text-anchor='middle'%3EEN%3C/text%3E%3C/svg%3E">
 
     <style>
@@ -22,7 +23,9 @@
             background-color: #0f172a;
             color: #f8fafc;
             margin: 0;
-            padding: 20px padding-top: calc(20px + env(safe-area-inset-top));
+            /* 📱 iPhone çentiğinin altında kalmaması için güvenli alan dolgusu */
+            padding: 20px;
+            padding-top: calc(20px + env(safe-area-inset-top));
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -51,7 +54,6 @@
         .tab-btn {
             flex: 1; background: #334155; border: none; color: #fff;
             padding: 12px 5px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;
-            transition: background 0.2s;
         }
         .tab-btn.active { background: #38bdf8; color: #0f172a; }
 
@@ -118,7 +120,6 @@
 </div>
 
 <script>
-    // Genişletilmiş Kelime Havuzu
     const db = {
         giris: [
             { en: "Water", tr: "Su", pron: "votır", lvl: "A1-A2" },
@@ -144,7 +145,7 @@
         ],
         teknik: [
             { en: "Calculation", tr: "Hesaplama", pron: "kelkyuleyşın", lvl: "Teknik" },
-            { en: "Coordinate", tr: "Koordinat", pron: "koordinıyt", lvl: "Teknik" },
+            { min_en: "Coordinate", en: "Coordinate", tr: "Koordinat", pron: "koordinıyt", lvl: "Teknik" },
             { en: "Elevation", tr: "Yükseklik / Rakım", pron: "eliveyşın", lvl: "Teknik" },
             { en: "Surveying", tr: "Haritacılık / Arazi Ölçümü", pron: "sörveying", lvl: "Teknik" },
             { en: "Expropriation", tr: "Kamulaştırma", pron: "ekspropriyeşın", lvl: "Teknik" },
@@ -211,7 +212,6 @@
         document.getElementById('s-rem').innerText = db[cat].length - lrn[cat].length;
     }
 
-    // İçi boş, PWA gereksinimi için Inline Service Worker
     if ('serviceWorker' in navigator) {
         const swCode = "self.addEventListener('fetch', function(e){});";
         const blob = new Blob([swCode], {type: 'application/javascript'});
