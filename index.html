@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Kelime İstasyonu PRO</title>
+    <title>Kelime İstasyonu Sınav</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="KelimePro">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0f172a">
     
-    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Kelime%20Istasyonu%22%2C%22short_name%22%3A%22KelimeIst%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage/svg+xml%2C%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20512%20512%27%3E%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27100%27%20fill%3D%27%2338bdf8%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2765%25%27%20font-size%3D%27260%27%20font-weight%3D%27bold%27%20fill%3D%27%230f172a%27%20text-anchor%3D%27middle%27%3EEN%3C/text%3E%3C/svg%3E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image/svg+xml%22%2D%7D%5D%7D">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%2338bdf8'/%3E%3Ctext x='50%25' y='65%25' font-size='260' font-weight='bold' fill='%230f172a' text-anchor='middle'%3EEN%3C/text%3E%3C/svg%3E">
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Kelime%20Istasyonu%22%2C%22short_name%22%3A%22KelimeIst%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%7D">
 
     <style>
         body {
@@ -19,127 +18,112 @@
             background-color: #0f172a;
             color: #f8fafc;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             padding-top: calc(15px + env(safe-area-inset-top));
-            padding-bottom: calc(95px + env(safe-area-inset-bottom)); /* Alt butonlar için güvenli boşluk */
+            padding-bottom: calc(95px + env(safe-area-inset-bottom));
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             box-sizing: border-box;
+            overflow: hidden; /* Android tek sayfa garantisi için kaydırmayı engelle */
             -webkit-user-select: none;
             user-select: none;
         }
-        .container { width: 100%; max-width: 450px; display: flex; flex-direction: column; flex: 1; }
-        h1 { font-size: 22px; margin: 5px 0 12px 0; color: #f8fafc; font-weight: 800; letter-spacing: -0.5px; }
+        .container { width: 100%; max-width: 450px; display: flex; flex-direction: column; height: 100%; }
+        h1 { font-size: 20px; margin: 0 0 10px 0; color: #f8fafc; font-weight: 800; text-align: center; }
         
         .stats {
             background: #1e293b;
-            border-radius: 14px;
+            border-radius: 12px;
             padding: 10px;
             display: flex;
             justify-content: space-around;
             margin-bottom: 12px;
-            font-size: 12px;
+            font-size: 11px;
             border: 1px solid #334155;
             position: relative;
         }
-        .stats span { display: block; font-size: 16px; font-weight: bold; color: #38bdf8; margin-top: 2px; }
+        .stats span { display: block; font-size: 15px; font-weight: bold; color: #38bdf8; margin-top: 2px; }
         
         .reset-btn {
-            position: absolute; right: 8px; top: 8px; background: #334155;
-            border: none; color: #94a3b8; padding: 4px 8px; border-radius: 6px;
-            font-size: 10px; font-weight: bold;
+            position: absolute; right: 6px; top: 6px; background: #334155;
+            border: none; color: #94a3b8; padding: 4px 6px; border-radius: 4px;
+            font-size: 9px; font-weight: bold;
         }
 
-        .tabs { display: flex; gap: 4px; margin-bottom: 15px; }
+        .tabs { display: flex; gap: 4px; margin-bottom: 12px; }
         .tab-btn {
             flex: 1; background: #1e293b; border: 1px solid #334155; color: #94a3b8;
-            padding: 12px 2px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer;
+            padding: 10px 2px; border-radius: 8px; font-size: 10px; font-weight: 700; cursor: pointer;
         }
         .tab-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; }
+        .tab-btn.test-mode-btn { border-color: #e2e8f0; color: #e2e8f0; }
+        .tab-btn.test-mode-btn.active { background: #eab308; color: #0f172a; border-color: #eab308; }
 
-        /* 📱 BÜYÜTÜLMÜŞ ORTA EKRAN (KART) */
+        /* 📱 EKRANA TAM ORANLANAN KART ALANI */
         .card-box {
             background: #1e293b;
             border: 2px solid #334155;
-            border-radius: 24px;
-            flex: 1; /* Ekrandaki kalan tüm dikey boşluğu kaplar */
-            min-height: 320px;
+            border-radius: 20px;
+            flex: 1; 
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: 25px 20px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            position: relative;
-        }
-        
-        /* 🎨 ÇAĞRIŞIM GÖRSEL ALANI */
-        .word-image {
-            width: 110px;
-            height: 110px;
-            background-color: rgba(56, 189, 248, 0.04);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            margin: 10px 0;
-            overflow: hidden;
-            border: 1px dashed rgba(56, 189, 248, 0.2);
+            padding: 20px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            position: relative;
+            text-align: center;
         }
-        .word-image img {
-            width: 85%;
-            height: 85%;
-            object-fit: contain;
-            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));
-        }
-
-        .word-title { font-size: 36px; font-weight: bold; margin: 0; color: #fff; text-align: center; max-width: 100%; word-break: break-word; }
-        .word-sub { font-size: 22px; color: #38bdf8; margin: 10px 0 0 0; display: none; font-weight: 700; text-align: center; }
-        .word-pron { font-size: 14px; color: #94a3b8; margin: 4px 0 0 0; font-style: italic; display: none; }
-        .badge { font-size: 11px; background: rgba(56, 189, 248, 0.1); padding: 5px 12px; border-radius: 12px; color: #38bdf8; font-weight: 600; }
         
-        .audio-icon {
-            position: absolute; top: 18px; right: 20px; font-size: 22px; color: #94a3b8;
-            background: rgba(255,255,255,0.04); padding: 8px; border-radius: 50%; width: 22px; height: 22px;
-            display: flex; align-items: center; justify-content: center;
+        .word-title { font-size: 38px; font-weight: bold; margin: 0; color: #fff; word-break: break-word; }
+        .word-sub { font-size: 22px; color: #38bdf8; margin: 15px 0 0 0; display: none; font-weight: 700; }
+        .word-pron { font-size: 14px; color: #94a3b8; margin: 5px 0 0 0; font-style: italic; display: none; }
+        .badge { position: absolute; bottom: 15px; font-size: 11px; background: rgba(56, 189, 248, 0.1); padding: 4px 10px; border-radius: 10px; color: #38bdf8; font-weight: 600; }
+        
+        /* 🔊 SES KISMA/AÇMA BUTONU */
+        .audio-toggle {
+            position: absolute; top: 15px; right: 15px; font-size: 20px; color: #94a3b8;
+            background: rgba(255,255,255,0.04); padding: 6px; border-radius: 50%; width: 24px; height: 24px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
         }
 
-        /* 🔒 EN ALTA SABİTLENEN TUŞLAR PANELDİ */
+        /* 🔒 ANDROID VE IOS NAVİGASYON UYUMLU ALT PANEL */
         .controls { 
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             background: #0f172a;
-            padding: 15px 20px calc(15px + env(safe-area-inset-bottom)) 20px;
+            padding: 12px 15px calc(12px + env(safe-area-inset-bottom)) 15px;
             display: flex; 
-            gap: 10px; 
+            gap: 8px; 
             width: 100%;
             max-width: 450px;
             margin: 0 auto;
             box-sizing: border-box;
-            border-top: 1px solid rgba(51, 65, 85, 0.5);
+            border-top: 1px solid rgba(51, 65, 85, 0.4);
             z-index: 999;
         }
         .btn {
-            flex: 1; padding: 16px 5px; border: none; border-radius: 16px;
-            font-size: 15px; font-weight: 800; cursor: pointer; color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            flex: 1; padding: 15px 5px; border: none; border-radius: 14px;
+            font-size: 14px; font-weight: 800; cursor: pointer; color: white;
             -webkit-tap-highlight-color: transparent;
         }
         .btn-show { background: #334155; color: #f8fafc; }
         .btn-ok { background: #10b981; }
         .btn-next { background: #38bdf8; color: #0f172a; }
+        
+        /* Sınav Modu Buton Renkleri */
+        .btn-wrong { background: #ef4444; } /* Unutmuşum */
+        .btn-keep { background: #10b981; }  /* Hala Biliyorum */
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Kelime İstasyonu</h1>
+    <h1 id="app-title">Kelime İstasyonu</h1>
     
     <div class="stats">
         <div>Havuz<span id="s-tot">0</span></div>
@@ -153,123 +137,101 @@
         <button class="tab-btn" onclick="setCat('orta', this)">ORTA</button>
         <button class="tab-btn" onclick="setCat('ileri', this)">İLERİ</button>
         <button class="tab-btn" onclick="setCat('teknik', this)">TEKNİK</button>
+        <button class="tab-btn test-mode-btn" onclick="setCat('test', this)">TEST MODU 🧠</button>
     </div>
 
     <div class="card-box" onclick="cardClick()">
-        <div class="audio-icon" onclick="speakCurrentWord(event)">🔊</div>
+        <div class="audio-toggle" id="audio-btn" onclick="toggleMute(event)">🔊</div>
+        <div class="word-title" id="w-en">-</div>
+        <div class="word-sub" id="w-tr">-</div>
+        <div class="word-pron" id="w-pron">-</div>
         <div class="badge" id="w-lvl">-</div>
-        
-        <div class="word-image" id="w-img-container">
-            <img id="w-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.25z'/%3E%3C/svg%3E" alt="Visual">
-        </div>
-
-        <div>
-            <div class="word-title" id="w-en">-</div>
-            <div class="word-sub" id="w-tr">-</div>
-            <div class="word-pron" id="w-pron">-</div>
-        </div>
     </div>
 
-    <div class="controls">
-        <button class="btn btn-show" onclick="showAnswer()">Anlamı</button>
-        <button class="btn btn-ok" onclick="markLrn()">✔ Bildim</button>
-        <button class="btn btn-next" onclick="nextW()">Sonraki ➔</button>
-    </div>
+    <div class="controls" id="action-buttons">
+        </div>
 </div>
 
 <script>
-    // 📦 ÇOKLU KELİME VERİ MODELİ (Genişletilebilir Optimize Altyapı)
+    // Ham, temizlenmiş kelime listeleri (Sayı eklemeleri kaldırıldı)
     const db = {
         giris: [
+            { en: "About", tr: "Hakkında / Yaklaşık", pron: "ıbaut", lvl: "A1-A2" },
+            { en: "All", tr: "Hepsi / Tüm", pron: "ol", lvl: "A1-A2" },
             { en: "Apple", tr: "Elma", pron: "epıl", lvl: "A1-A2" },
-            { en: "Water", tr: "Su", pron: "votır", lvl: "A1-A2" },
-            { en: "House", tr: "Ev", pron: "havs", lvl: "A1-A2" },
+            { en: "Baby", tr: "Bebek", pron: "beybi", lvl: "A1-A2" },
+            { en: "Beautiful", tr: "Güzel", pron: "byutıful", lvl: "A1-A2" },
             { en: "Book", tr: "Kitap", pron: "buk", lvl: "A1-A2" },
             { en: "Car", tr: "Araba", pron: "kar", lvl: "A1-A2" },
-            { en: "Time", tr: "Zaman", pron: "taym", lvl: "A1-A2" },
-            { en: "Friend", tr: "Arkadaş", pron: "frend", lvl: "A1-A2" },
-            { en: "Family", tr: "Aile", pron: "femıli", lvl: "A1-A2" },
-            { en: "School", tr: "Okul", pron: "skul", lvl: "A1-A2" },
-            { en: "Money", tr: "Para", pron: "mani", lvl: "A1-A2" },
-            { en: "Food", tr: "Yiyecek", pron: "fud", lvl: "A1-A2" },
-            { en: "City", tr: "Şehir", pron: "siti", lvl: "A1-A2" },
             { en: "Day", tr: "Gün", pron: "dey", lvl: "A1-A2" },
-            { en: "Night", tr: "Gece", pron: "nayt", lvl: "A1-A2" },
-            { en: "Dog", tr: "Köpek", pron: "dog", lvl: "A1-A2" },
-            { en: "Sun", tr: "Güneş", pron: "san", lvl: "A1-A2" },
-            { en: "Tree", tr: "Ağaç", pron: "tri", lvl: "A1-A2" },
-            { en: "Door", tr: "Kapı", pron: "dor", lvl: "A1-A2" },
+            { en: "Friend", tr: "Arkadaş", pron: "frend", lvl: "A1-A2" },
+            { en: "House", tr: "Ev", pron: "havs", lvl: "A1-A2" },
             { en: "Life", tr: "Hayat", pron: "layf", lvl: "A1-A2" },
-            { en: "Baby", tr: "Bebek", pron: "beybi", lvl: "A1-A2" }
+            { en: "Money", tr: "Para", pron: "mani", lvl: "A1-A2" },
+            { en: "School", tr: "Okul", pron: "skul", lvl: "A1-A2" },
+            { en: "Water", tr: "Su", pron: "votır", lvl: "A1-A2" },
+            { en: "Work", tr: "İş / Çalışmak", pron: "vörk", lvl: "A1-A2" }
         ],
         orta: [
-            { en: "Develop", tr: "Geliştirmek", pron: "divelop", lvl: "B1-B2" },
+            { en: "Ability", tr: "Yetenek / Kabiliyet", pron: "ıbiliti", lvl: "B1-B2" },
             { en: "Analyze", tr: "Analiz etmek", pron: "enılayz", lvl: "B1-B2" },
-            { en: "Project", tr: "Proje", pron: "procekt", lvl: "B1-B2" },
-            { en: "Challenge", tr: "Zorluk / Meydan Okuma", pron: "çelınc", lvl: "B1-B2" },
-            { en: "Experience", tr: "Deneyim / Tecrübe", pron: "ekspiryıns", lvl: "B1-B2" },
-            { en: "Success", tr: "Başarı", pron: "sokses", lvl: "B1-B2" },
-            { en: "Manage", tr: "Yönetmek", pron: "menıc", lvl: "B1-B2" },
+            { en: "Challenge", tr: "Zorluk / Meydan okuma", pron: "çelınc", lvl: "B1-B2" },
             { en: "Decision", tr: "Karar", pron: "disijın", lvl: "B1-B2" },
-            { en: "Improve", tr: "Geliştirmek / İlerletmek", pron: "impruv", lvl: "B1-B2" },
-            { en: "Requirement", tr: "Gereksinim", pron: "rikuayırmınt", lvl: "B1-B2" },
-            { en: "Support", tr: "Desteklemek", pron: "soport", lvl: "B1-B2" },
-            { en: "Benefit", tr: "Fayda", pron: "benefit", lvl: "B1-B2" },
-            { en: "Compare", tr: "Kıyaslamak", pron: "komper", lvl: "B1-B2" },
-            { en: "Source", tr: "Kaynak", pron: "sors", lvl: "B1-B2" },
-            { en: "Value", tr: "Değer", pron: "velyu", lvl: "B1-B2" }
+            { en: "Develop", tr: "Geliştirmek", pron: "divelop", lvl: "B1-B2" },
+            { en: "Experience", tr: "Tecrübe / Deneyim", pron: "ekspiryıns", lvl: "B1-B2" },
+            { en: "Improve", tr: "Geliştirmek / İyileştirmek", pron: "impruv", lvl: "B1-B2" },
+            { en: "Project", tr: "Proje", pron: "procekt", lvl: "B1-B2" },
+            { en: "Requirement", tr: "Gereksinim / Şart", pron: "rikuayırmınt", lvl: "B1-B2" },
+            { en: "Support", tr: "Desteklemek", pron: "soport", lvl: "B1-B2" }
         ],
         ileri: [
-            { en: "Accurate", tr: "Kesin / Hatasız", pron: "ekyurıt", lvl: "C1-C2" },
-            { en: "Predict", tr: "Tahmin etmek", pron: "pridikt", lvl: "C1-C2" },
-            { en: "Sustainable", tr: "Sürdürülebilir", pron: "sosteynıbıl", lvl: "C1-C2" },
-            { en: "Implement", tr: "Uygulamaya koymak", pron: "impliment", lvl: "C1-C2" },
-            { en: "Ambiguous", tr: "Muğlak / Belirsiz", pron: "embigyuıs", lvl: "C1-C2" },
+            { en: "Accurate", tr: "Kesin / Hatasız / Tam", pron: "ekyurıt", lvl: "C1-C2" },
+            { en: "Ambiguous", tr: "Belirsiz / Muğlak", pron: "embigyuıs", lvl: "C1-C2" },
             { en: "Collaborate", tr: "İş birliği yapmak", pron: "kılâbıreyt", lvl: "C1-C2" },
-            { en: "Comprehensive", tr: "Kapsamlı", pron: "komprihensiv", lvl: "C1-C2" },
+            { en: "Comprehensive", tr: "Kapsamlı / Detaylı", pron: "komprihensiv", lvl: "C1-C2" },
             { en: "Evaluate", tr: "Değerlendirmek", pron: "ivalyueyt", lvl: "C1-C2" },
-            { en: "Innovation", tr: "Yenilik / İnovasyon", pron: "inoveyşın", lvl: "C1-C2" },
-            { en: "Inevitable", tr: "Kaçınılmaz", pron: "inevitıbıl", lvl: "C1-C2" }
+            { en: "Implement", tr: "Uygulamaya koymak", pron: "impliment", lvl: "C1-C2" },
+            { en: "Inevitable", tr: "Kaçınılmaz", pron: "inevitıbıl", lvl: "C1-C2" },
+            { en: "Innovation", tr: "Yenilikçilik / İnovasyon", pron: "inoveyşın", lvl: "C1-C2" },
+            { en: "Predict", tr: "Tahmin etmek", pron: "pridikt", lvl: "C1-C2" },
+            { en: "Sustainable", tr: "Sürdürülebilir", pron: "sosteynıbıl", lvl: "C1-C2" }
         ],
         teknik: [
             { en: "Algorithm", tr: "Algoritma", pron: "algoridım", lvl: "Teknik" },
             { en: "Calculation", tr: "Hesaplama", pron: "kelkyuleyşın", lvl: "Teknik" },
             { en: "Coordinate", tr: "Koordinat", pron: "koordinıyt", lvl: "Teknik" },
-            { en: "Elevation", tr: "Yükseklik / Rakım", pron: "eliveyşın", lvl: "Teknik" },
-            { en: "Surveying", tr: "Arazi Ölçümü / Haritacılık", pron: "sörveying", lvl: "Teknik" },
             { en: "Database", tr: "Veri tabanı", pron: "deytıbeys", lvl: "Teknik" },
-            { en: "Interface", tr: "Arayüz", pron: "intırfeys", lvl: "Teknik" },
-            { en: "Infrastructure", tr: "Altyapı", pron: "infrastrakçır", lvl: "Teknik" },
+            { en: "Elevation", tr: "Yükseklik / Rakım", pron: "eliveyşın", lvl: "Teknik" },
+            { en: "Execute", tr: "Çalıştırmak (Kod)", pron: "eksikyut", lvl: "Teknik" },
             { en: "Expropriation", tr: "Kamulaştırma", pron: "ekspropriyeşın", lvl: "Teknik" },
-            { en: "Topography", tr: "Topografya / Arazi Yapısı", pron: "tıpografı", lvl: "Teknik" }
+            { en: "Interface", tr: "Arayüz", pron: "intırfeys", lvl: "Teknik" },
+            { en: "Surveying", tr: "Haritacılık / Arazi Ölçümü", pron: "sörveying", lvl: "Teknik" },
+            { en: "Topography", tr: "Topografya / Arazi yapısı", pron: "tıpografı", lvl: "Teknik" }
         ]
     };
 
-    // 🚀 DÖNGÜSEL 1000 KELİME SİMÜLATÖRÜ (Havuzdaki kelimeleri 1000'e tamamlayan akıllı jeneratör)
-    // Bu sayede kod şişmeden 1000 kelimelik döngüsel çalışma alanı üretilir.
-    function expandDatabase() {
-        ['giris', 'orta', 'ileri', 'teknik'].forEach(c => {
-            const baseLen = db[c].length;
-            for (let i = baseLen; i < 1000; i++) {
-                const template = db[c][i % baseLen];
-                db[c].push({
-                    en: `${template.en} ${Math.floor(i/baseLen) + 1}`,
-                    tr: `${template.tr} (Set ${Math.floor(i/baseLen) + 1})`,
-                    pron: template.pron,
-                    lvl: template.lvl
-                });
-            }
-        });
-    }
-    expandDatabase();
+    let cat = 'giris', idx = -1;
+    let isMuted = localStorage.getItem('pwa_muted') === 'true';
+    let lrn = JSON.parse(localStorage.getItem('pwa_lrn_final')) || {giris:[],orta:[],ileri:[],teknik:[]};
+    let currentTestData = []; // Test modundaki güncel alt havuz
 
-    let cat = 'giris', idx = -1, lrn = JSON.parse(localStorage.getItem('pwa_lrn_pro_v1')) || {giris:[],orta:[],ileri:[],teknik:[]};
+    // Ses ikonunun durumunu eşitle
+    document.getElementById('audio-btn').innerText = isMuted ? "🔇" : "🔊";
 
     function setCat(c, el) {
         cat = c;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         el.classList.add('active');
+        
+        if (cat === 'test') {
+            document.getElementById('app-title').innerText = "Sınav Modu 🧠";
+            buildTestPool();
+        } else {
+            document.getElementById('app-title').innerText = "Kelime İstasyonu";
+        }
+        
         resetCard();
+        renderButtons();
         nextW();
     }
 
@@ -285,13 +247,22 @@
 
     function cardClick() {
         showAnswer();
-        speakCurrentWord();
+        if(!isMuted) speakCurrentWord();
+    }
+
+    function toggleMute(event) {
+        if (event) event.stopPropagation();
+        isMuted = !isMuted;
+        localStorage.setItem('pwa_muted', isMuted);
+        document.getElementById('audio-btn').innerText = isMuted ? "🔇" : "🔊";
+        if (!isMuted) speakCurrentWord();
     }
 
     function speakCurrentWord(event) {
         if (event) event.stopPropagation();
-        const wordText = document.getElementById('w-en').innerText.split(' ')[0]; // Ek sayıları okumasın
-        if (wordText === "Bitti!" || wordText === "-") return;
+        if (isMuted) return;
+        const wordText = document.getElementById('w-en').innerText;
+        if (wordText === "Bitti! 🎉" || wordText === "-" || wordText.includes("Yok")) return;
 
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(wordText);
@@ -300,67 +271,153 @@
         window.speechSynthesis.speak(utterance);
     }
 
-    function nextW() {
-        resetCard();
-        const avail = db[cat].filter(w => !lrn[cat].includes(w.en));
-        updateStats();
-        
-        if (avail.length === 0) {
-            document.getElementById('w-en').innerText = "Bitti! 🎉";
-            document.getElementById('w-lvl').innerText = "-";
-            document.getElementById('w-img').src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2310b981'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E";
-            idx = -1;
-            return;
-        }
-        
-        const w = avail[Math.floor(Math.random() * avail.length)];
-        idx = db[cat].findIndex(x => x.en === w.en);
-        
-        document.getElementById('w-en').innerText = w.en;
-        document.getElementById('w-lvl').innerText = w.lvl;
-        document.getElementById('w-tr').innerText = w.tr;
-        document.getElementById('w-pron').innerText = `[${w.pron}]`;
-
-        // 🎨 AI Çağrışım Görsel Motoru (Open Source Vector Icon Api)
-        const cleanWord = w.en.split(' ')[0].toLowerCase();
-        document.getElementById('w-img').src = `https://openverse.engineering/wp-content/themes/openverse/assets/images/openverse-logo-dark.svg`; 
-        // Gerçek zamanlı akıllı vektör fallback motoru
-        document.getElementById('w-img').src = `https://api.dicebear.com/7.x/identicon/svg?seed=${cleanWord}&backgroundColor=1e293b`;
-
-        setTimeout(speakCurrentWord, 150);
+    // 🎯 SINAV MODU HAVUZ OLUŞTURUCU (Öğrenilen kelimeleri harmanlar)
+    function buildTestPool() {
+        currentTestData = [];
+        ['giris', 'orta', 'ileri', 'teknik'].forEach(c => {
+            lrn[c].forEach(wordEn => {
+                const found = db[c].find(x => x.en === wordEn);
+                if (found) {
+                    currentTestData.push({ ...found, originalCat: c });
+                }
+            });
+        });
     }
 
+    function nextW() {
+        resetCard();
+        updateStats();
+        
+        if (cat === 'test') {
+            if (currentTestData.length === 0) {
+                document.getElementById('w-en').innerText = "Öğrenilmiş Kelime Yok! ⚠️";
+                document.getElementById('w-lvl').innerText = "Önce diğer modlarda kelime öğrenmelisin.";
+                idx = -1;
+                return;
+            }
+            const w = currentTestData[Math.floor(Math.random() * currentTestData.length)];
+            idx = currentTestData.indexOf(w);
+            
+            document.getElementById('w-en').innerText = w.en;
+            document.getElementById('w-lvl').innerText = `Test: ${w.lvl}`;
+            document.getElementById('w-tr').innerText = w.tr;
+            document.getElementById('w-pron').innerText = `[${w.pron}]`;
+        } else {
+            const avail = db[cat].filter(w => !lrn[cat].includes(w.en));
+            if (avail.length === 0) {
+                document.getElementById('w-en').innerText = "Bitti! 🎉";
+                document.getElementById('w-lvl').innerText = "Tüm kelimeleri öğrendin.";
+                idx = -1;
+                return;
+            }
+            const w = avail[Math.floor(Math.random() * avail.length)];
+            idx = db[cat].findIndex(x => x.en === w.en);
+            
+            document.getElementById('w-en').innerText = w.en;
+            document.getElementById('w-lvl').innerText = w.lvl;
+            document.getElementById('w-tr').innerText = w.tr;
+            document.getElementById('w-pron').innerText = `[${w.pron}]`;
+        }
+
+        setTimeout(speakCurrentWord, 100);
+    }
+
+    // Normal Modda Doğru İşaretleme
     function markLrn() {
-        if (idx === -1) return;
+        if (idx === -1 || cat === 'test') return;
         const w = db[cat][idx].en;
         if (!lrn[cat].includes(w)) {
             lrn[cat].push(w);
-            localStorage.setItem('pwa_lrn_pro_v1', JSON.stringify(lrn));
+            localStorage.setItem('pwa_lrn_final', JSON.stringify(lrn));
         }
         nextW();
     }
 
+    // 🧠 Sınav Modu: Unutmuşum (Kelimeyi öğrenilenlerden sil, ana havuza at)
+    function testWrong() {
+        if (idx === -1 || cat !== 'test') return;
+        const w = currentTestData[idx];
+        
+        // Öğrenilenler listesinden çıkart
+        lrn[w.originalCat] = lrn[w.originalCat].filter(x => x !== w.en);
+        localStorage.setItem('pwa_lrn_final', JSON.stringify(lrn));
+        
+        // Test alt havuzundan da çıkart ve sonraki kelimeye geç
+        currentTestData.splice(idx, 1);
+        nextW();
+    }
+
+    // 🧠 Sınav Modu: Hala Biliyorum (Listede kalsın, sıradakine geç)
+    function testRight() {
+        if (idx === -1 || cat !== 'test') return;
+        // Kelime zaten listede, sadece alt test havuzundan anlık eliyoruz ki aynı sınav oturumunda mükerrer gelmesin
+        currentTestData.splice(idx, 1);
+        nextW();
+    }
+
+    // 🔒 MODA GÖRE ALT TUŞLARI DİNAMİK YÜKLEME (Android Çakışma Önleyici)
+    function renderButtons() {
+        const panel = document.getElementById('action-buttons');
+        if (cat === 'test') {
+            panel.innerHTML = `
+                <button class="btn btn-show" onclick="showAnswer()">Anlamı</button>
+                <button class="btn btn-wrong" onclick="testWrong()">🔄 Unutmuşum</button>
+                <button class="btn btn-keep" onclick="testRight()">👍 Biliyorum</button>
+            `;
+        } else {
+            panel.innerHTML = `
+                <button class="btn btn-show" onclick="showAnswer()">Anlamı</button>
+                <button class="btn btn-ok" onclick="markLrn()">✔ Bildim</button>
+                <button class="btn btn-next" onclick="nextW()">Sonraki ➔</button>
+            `;
+        }
+    }
+
     function updateStats() {
-        document.getElementById('s-tot').innerText = db[cat].length;
-        document.getElementById('s-lrn').innerText = lrn[cat].length;
-        document.getElementById('s-rem').innerText = db[cat].length - lrn[cat].length;
+        if (cat === 'test') {
+            document.getElementById('s-tot').innerText = "Sınav";
+            document.getElementById('s-lrn').innerText = currentTestData.length;
+            document.getElementById('s-rem').innerText = "Kalan";
+        } else {
+            document.getElementById('s-tot').innerText = db[cat].length;
+            document.getElementById('s-lrn').innerText = lrn[cat].length;
+            document.getElementById('s-rem').innerText = db[cat].length - lrn[cat].length;
+        }
     }
 
     function resetProgress() {
-        if(confirm("Bu seviyedeki tüm ilerlemeyi sıfırlamak istiyor musun?")) {
-            lrn[cat] = [];
-            localStorage.setItem('pwa_lrn_pro_v1', JSON.stringify(lrn));
+        const msg = cat === 'test' ? "Tüm kategorilerin ilerlemesini sıfırlamak istiyor musun?" : "Bu seviyedeki tüm ilerlemeyi sıfırlamak istiyor musun?";
+        if(confirm(msg)) {
+            if (cat === 'test') {
+                lrn = {giris:[],orta:[],ileri:[],teknik:[]};
+                currentTestData = [];
+            } else {
+                lrn[cat] = [];
+            }
+            localStorage.setItem('pwa_lrn_final', JSON.stringify(lrn));
+            if(cat === 'test') buildTestPool();
             nextW();
         }
     }
 
+    // 🤖 ANDROID PWA ÇALIŞMA PRENSİBİ VE ÖNBELLEK MOTORU
     if ('serviceWorker' in navigator) {
-        const swCode = "self.addEventListener('fetch', function(e){});";
+        // Kod her güncellendiğinde Android cihazların eski önbellekte kalmasını önleyen dinamik yapı
+        const swCode = `
+            const cacheName = 'istasyon-v5';
+            self.addEventListener('install', e => self.skipWaiting());
+            self.addEventListener('activate', e => e.waitUntil(caches.keys().then(keys => Promise.all(keys.map(k => k !== cacheName && caches.delete(k))))));
+            self.addEventListener('fetch', e => {});
+        `;
         const blob = new Blob([swCode], {type: 'application/javascript'});
-        navigator.serviceWorker.register(URL.createObjectURL(blob));
+        navigator.serviceWorker.register(URL.createObjectURL(blob)).then(reg => {
+            // Android Chrome uygulamasında arka planda güncelleme kontrolünü tetikler
+            reg.update();
+        });
     }
 
-    updateStats(); nextW();
+    // İlk Çalıştırma
+    renderButtons(); updateStats(); nextW();
 </script>
 </body>
 </html>
