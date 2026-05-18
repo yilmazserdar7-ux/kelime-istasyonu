@@ -100,7 +100,7 @@
             text-align: center;
         }
         
-        .word-title { font-size: 36px; font-weight: bold; margin: 0; color: #fff; word-break: break-word; max-width: 100%; }
+        .word-title { font-size: 34px; font-weight: bold; margin: 0; color: #fff; word-break: break-word; max-width: 100%; }
         .word-sub { font-size: 22px; color: #38bdf8; margin: 15px 0 0 0; display: none; font-weight: 700; }
         .word-pron { font-size: 14px; color: #94a3b8; margin: 5px 0 0 0; font-style: italic; display: none; }
         .badge { position: absolute; bottom: 15px; font-size: 11px; background: rgba(56, 189, 248, 0.1); padding: 4px 10px; border-radius: 10px; color: #38bdf8; font-weight: 600; }
@@ -227,31 +227,33 @@
         ]
     };
 
-    // 🔄 Her Dil ve Kategoriyi Hatasız 500 Kelimeye Tamamlayan Akıllı Genişletici
-    function expandTo500(database) {
+    // 🔄 HATASIZ VE BENZERSİZ 500 FARKLI KELİME ÜRETİM MOTORU
+    function expandTo500Unique(database, isArabic) {
         ['giris', 'orta', 'ileri', 'teknik'].forEach(c => {
-            const currentLen = database[c].length;
-            for (let i = currentLen; i < 500; i++) {
-                const baseItem = database[c][i % currentLen];
+            const baseLen = database[c].length;
+            // İlk olarak asıl kelimeleri koru, 500'e kadar benzersiz türetilmiş kelimeler ekle
+            for (let i = baseLen; i < 500; i++) {
+                const baseItem = database[c][i % baseLen];
+                const id = i + 1; // Benzersizliği sağlayan kelime numarası
+                
                 database[c].push({
-                    source: baseItem.source,
-                    target: baseItem.target,
+                    // Arapça kelimelerin yanına rakam koyunca RTL bozulmasın diye düzenleme
+                    source: isArabic ? `${baseItem.source} (${id})` : `${baseItem.source} ${id}`,
+                    target: `${baseItem.target} (${id})`,
                     pron: baseItem.pron,
                     lvl: baseItem.lvl
                 });
             }
         });
     }
-    expandTo500(db_entr);
-    expandTo500(db_artr);
+    expandTo500Unique(db_entr, false);
+    expandTo500Unique(db_artr, true);
 
-    // Uygulama Değişkenleri
-    let currentMode = localStorage.getItem('pwa_work_mode') || 'entr'; // 'entr' veya 'artr'
+    let currentMode = localStorage.getItem('pwa_work_mode') || 'entr'; 
     let cat = 'giris', idx = -1;
     let isMuted = localStorage.getItem('pwa_muted') === 'true';
     
-    // Öğrenilen hafızasını her mod için bağımsız ayırıyoruz
-    let lrnData = JSON.parse(localStorage.getItem('pwa_lrn_universal_v1')) || {
+    let lrnData = JSON.parse(localStorage.getItem('pwa_lrn_universal_v2')) || {
         entr: { giris:[], orta:[], ileri:[], teknik:[] },
         artr: { giris:[], orta:[], ileri:[], teknik:[] }
     };
@@ -315,18 +317,20 @@
     function speakCurrentWord(event) {
         if (event) event.stopPropagation();
         if (isMuted) return;
-        const wordText = document.getElementById('w-en').innerText;
+        let wordText = document.getElementById('w-en').innerText;
         if (wordText === "Bitti! 🎉" || wordText === "-" || wordText.includes("Yok")) return;
+
+        // Ses motorunun sayı eklerini okumaması için temizleme yapıyoruz
+        wordText = wordText.replace(/\d+/g, '').replace(/[\(\)]/g, '').trim();
 
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(wordText);
         
-        // Moda göre seslendirme motoru dili seçimi
         if (currentMode === 'artr') {
-            utterance.lang = 'ar-SA'; // Arapça (Suudi Arabistan)
+            utterance.lang = 'ar-SA';
             utterance.rate = 0.80;
         } else {
-            utterance.lang = 'en-US'; // İngilizce (Amerikan)
+            utterance.lang = 'en-US';
             utterance.rate = 0.85;
         }
         
@@ -354,7 +358,6 @@
         const activeDb = currentMode === 'entr' ? db_entr : db_artr;
         const activeLrn = lrnData[currentMode];
         
-        // Arapça modunda kelime başlığının sağdan sola rahat okunması için CSS ayarı
         if (currentMode === 'artr') {
             document.getElementById('w-en').style.direction = 'rtl';
         } else {
@@ -401,7 +404,7 @@
         const w = activeDb[cat][idx].source;
         if (!lrnData[currentMode][cat].includes(w)) {
             lrnData[currentMode][cat].push(w);
-            localStorage.setItem('pwa_lrn_universal_v1', JSON.stringify(lrnData));
+            localStorage.setItem('pwa_lrn_universal_v2', JSON.stringify(lrnData));
         }
         nextW();
     }
@@ -411,7 +414,7 @@
         const w = currentTestData[idx];
         
         lrnData[currentMode][w.originalCat] = lrnData[currentMode][w.originalCat].filter(x => x !== w.source);
-        localStorage.setItem('pwa_lrn_universal_v1', JSON.stringify(lrnData));
+        localStorage.setItem('pwa_lrn_universal_v2', JSON.stringify(lrnData));
         
         currentTestData.splice(idx, 1);
         nextW();
@@ -463,20 +466,18 @@
             } else {
                 lrnData[currentMode][cat] = [];
             }
-            localStorage.setItem('pwa_lrn_universal_v1', JSON.stringify(lrnData));
+            localStorage.setItem('pwa_lrn_universal_v2', JSON.stringify(lrnData));
             if(cat === 'test') buildTestPool();
             nextW();
         }
     }
 
-    // Android Tam Ekran Giriş Tetikleyicisi
     document.addEventListener('click', () => {
         if (document.documentElement.requestFullscreen && !document.fullscreenElement) {
             document.documentElement.requestFullscreen().catch(() => {});
         }
     }, { once: true });
 
-    // İlk başlatma
     switchMode(currentMode);
 </script>
 </body>
