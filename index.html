@@ -175,89 +175,195 @@
 </div>
 
 <script>
-    // 🌍 KELİME SIKIŞTIRMA VE SÖZLÜK SİSTEMİ (GERÇEK 500 KELİME MOTORU)
-    // Her seviye için tamamen bağımsız, benzersiz ve gerçek anlamlı kelime tohumları
-    const seeds = {
-        entr: {
-            giris: [
-                ["Apple","Elma","epıl"],["Water","Su","votır"],["Book","Kitap","buk"],["Car","Araba","kar"],["House","Ev","havs"],
-                ["Time","Zaman","taym"],["Man","Adam","men"],["Woman","Kadın","vumın"],["Boy","Oğlan","boy"],["Girl","Kız","görl"],
-                ["Friend","Arkadaş","frend"],["School","Okul","skul"],["Food","Yemek","fud"],["Money","Para","mani"],["Work","İş","vörk"],
-                ["Life","Hayat","layf"],["Hand","El","hend"],["Eye","Göz","ay"],["City","Şehir","siti"],["Country","Ülke","kantri"]
-            ],
-            orta: [
-                ["Develop","Geliştirmek","divelop"],["Analyze","Analiz etmek","enılayz"],["Challenge","Meydan Okuma","çelınc"],["Decision","Karar","disijın"],["Experience","Tecrübe","ekspiryıns"],
-                ["Improve","İlerletmek","impruv"],["Support","Desteklemek","soport"],["Project","Proje","procekt"],["Requirement","Gereksinim","rikuayırmınt"],["Manage","Yönetmek","menıc"],
-                ["Understand","Anlamak","andırstend"],["Protect","Korumak","protekt"],["Discover","Keşfetmek","diskavır"],["Imagine","Hayal etmek","imacin"],["Produce","Üretmek","prodyus"],
-                ["Create","Yaratmak","krieyt"],["Explain","Açıklamak","ekspleyn"],["Accept","Kabul etmek","eksept"],["Receive","Teslim almak","risiv"],["Provide","Sağlamak","provayd"]
-            ],
-            ileri: [
-                ["Accurate","Kesin / Tam","ekyurıt"],["Ambiguous","Belirsiz / Muğlak","embigyuıs"],["Collaborate","İş birliği yapmak","kılâbıreyt"],["Comprehensive","Kapsamlı","komprihensiv"],["Evaluate","Değerlendirmek","ivalyueyt"],
-                ["Implement","Uygulamak","impliment"],["Inevitable","Kaçınılmaz","inevitıbıl"],["Innovation","Yenilik","inoveyşın"],["Predict","Tahmin etmek","pridikt"],["Sustainable","Sürdürülebilir","sosteynıbıl"],
-                ["Cognitive","Bilişsel","kognitiv"],["Eloquent","Ağzı laf yapan","elokuınt"],["Resilient","Dirençli / Esnek","rizilyınt"],["Profound","Derin / Esaslı","profaund"],["Ubiquitous","Her yerde bulunan","yubikuıtıs"],
-                ["Scarcity","Kıtlık","skersiti"],["Pragmatic","Faydacı","pregmetik"],["Volatile","Değişken / Uçucu","volıtayl"],["Exacerbate","Kötüleştirmek","egzasırbeyt"],["Alleviate","Hafifletmek","elivieyt"]
-            ],
-            teknik: [
-                ["Algorithm","Algoritma","algoridım"],["Database","Veri tabanı","deytıbeys"],["Interface","Arayüz","intırfeys"],["Execution","Çalıştırma","eksikyuşın"],["Framework","Altyapı / Çatı","freymvörk"],
-                ["Variables","Değişkenler","veriyabılz"],["Function","Fonksiyon","fankşın"],["Compiler","Derleyici","kompaylır"],["Deployment","Dağıtım / Canlıya alma","diploymınt"],["Encryption","Şifreleme","enkripşın"],["Array","Dizi","erey"],["Inheritance","Kalıtım","inherıtıns"],["Asynchronous","Eşzamansız","esinkronıs"],["Middleware","Ara katman","midılver"],["Repository","Depo","ripozitori"]
-            ]
-        },
-        artr: {
-            giris: [
-                ["تفاحة","Elma","Tuffahah"],["ماء","Su","Maa'"],["كتاب","Kitap","Kitaab"],["سيارة","Araba","Sayyaarah"],["بيت","Ev","Bayt"],
-                ["وقت","Zaman","Waqt"],["رجل","Adam","Rajul"],["امرأة","Kadın","Imra'ah"],["ولد","Oğlan","Walad"],["بنت","Kız","Bint"],
-                ["صديق","Arkadaş","Sadeeq"],["مدرسة","Okul","Madrasah"],["طعام","Yemek","Ta'am"],["مال","Para","Maal"],["عمل","İş","Amal"],
-                ["حياة","Hayat","Hayah"],["يد","El","Yad"],["عين","Göz","Ayn"],["مدينة","Şehir","Madinah"],["بلد","Ülke","Balad"]
-            ],
-            orta: [
-                ["طوّر","Geliştirmek","Tawwar"],["حلل","Analiz etmek","Hallal"],["تحدي","Meydan Okuma","Tahaddi"],["قرار","Karar","Qarar"],["خبرة","Tecrübe","Khibrah"],
-                ["تحسين","İlerletmek","Tahseen"],["دعم","Desteklemek","Da'am"],["مشروع","Proje","Mashroo'"],["متطلبات","Gereksinim","Mutatallabat"],["إدارة","Yönetmek","Idarah"],
-                ["فهم","Anlamak","Fahm"],["حماية","Korumak","Himayah"],["اكتشاف","Keşfetmek","Iktishaf"],["تخيل","Hayal etmek","Takhayyul"],["إنتاج","Üretmek","Intaj"],
-                ["إبداع","Yaratmak","Ibda'"],["شرح","Açıklamak","Sharh"],["قبول","Kabul etmek","Qabool"],["استلام","Teslim almak","Istilam"],["توفير","Sağlamak","Tawfeer"]
-            ],
-            ileri: [
-                ["دقيق","Kesin / Tam","Daqeeq"],["غامض","Belirsiz / Muğlak","Ghamid"],["تعاون","İş birliği yapmak","Ta'awan"],["شامل","Kapsamlı","Shamil"],["تقييم","Değerlendirmek","Taqyeem"],
-                ["تطبيق","Uygulamak","Tatbeeq"],["حتمي","Kaçınılmaz","Hatmi"],["ابتكار","Yenilik","Ibtikar"],["تنبؤ","Tahmin etmek","Tanabbu'"],["مستدام","Sürdürülebilir","Mustadam"],
-                ["معرفي","Bilişsel","Ma'rifi"],["فصيح","Ağzı laf yapan","Faseeh"],["مرن","Dirençli / Esnek","Marin"],["عميق","Derin / Esaslı","Ameeq"],["شائع","Her yerde bulunan","Sha'i"],
-                ["ندرة","Kıtlık","Nudrah"],["عملي","Faydacı","Amali"],["متقلب","Değişken","Mutaqallib"],["تفاقم","Kötüleştirmek","Tafaqqum"],["تخفيف","Hafifletmek","Takhfeef"]
-            ],
-            teknik: [
-                ["خوارزمية","Algoritma","Khwarizmiyyah"],["قاعدة بيانات","Veri tabanı","Qa'idat Bayanat"],["واجهة","Arayüz","Wajahah"],["تنفيذ","Çalıştırma","Tanfeeth"],["إطار عمل","Altyapı / Çatı","Itar Amal"],
-                ["متغيرات","Değişkenler","Mutaghayyirat"],["دالة","Fonksiyon","Dallah"],["مترجم","Derleyici","Mutarjim"],["نشر","Dağıtım","Nashr"],["تشفير","Şifreleme","Tashfeer"],["مصفوفة","Dizi","Masfoofah"],["وراثة","Kalıtım","Wirathah"],["غير متزامن","Eşzamansız","Ghayr Mutazamin"],["برمجيات وسيطة","Ara katman","Barmajiyyat Vaseetah"],["مستودع","Depo","Mustawda'"]
-            ]
-        }
+    // 📦 TERTEMİZ, NUMARASIZ GERÇEK KELİME LİSTELERİ (HER BİRİ TAM NET 100'ER KELİME)
+    const db_entr = {
+        giris: [
+            { source: "Apple", target: "Elma", pron: "epıl", lvl: "A1" }, { source: "Water", target: "Su", pron: "votır", lvl: "A1" }, { source: "Book", target: "Kitap", pron: "buk", lvl: "A1" }, { source: "Car", target: "Araba", pron: "kar", lvl: "A1" }, { source: "House", target: "Ev", pron: "havs", lvl: "A1" },
+            { source: "Time", target: "Zaman", pron: "taym", lvl: "A1" }, { source: "Man", target: "Adam", pron: "men", lvl: "A1" }, { source: "Woman", target: "Kadın", pron: "vumın", lvl: "A1" }, { source: "Boy", target: "Oğlan", pron: "boy", lvl: "A1" }, { source: "Girl", target: "Kız", pron: "görl" },
+            { source: "Friend", target: "Arkadaş", pron: "frend" }, { source: "School", target: "Okul", pron: "skul" }, { source: "Food", target: "Yemek", pron: "fud" }, { source: "Money", target: "Para", pron: "mani" }, { source: "Work", target: "İş", pron: "vörk" },
+            { source: "Life", target: "Hayat", pron: "layf" }, { source: "Hand", target: "El", pron: "hend" }, { source: "Eye", target: "Göz", pron: "ay" }, { source: "City", target: "Şehir", pron: "siti" }, { source: "Country", target: "Ülke", pron: "kantri" },
+            { source: "Sun", target: "Güneş", pron: "san" }, { source: "Moon", target: "Ay", pron: "mun" }, { source: "Tree", target: "Ağaç", pron: "tri" }, { source: "Flower", target: "Çiçek", pron: "flavır" }, { source: "Cat", target: "Kedi", pron: "ket" },
+            { source: "Dog", target: "Köpek", pron: "dog" }, { source: "Bird", target: "Kuş", pron: "börd" }, { source: "Fish", target: "Balık", pron: "fiş" }, { source: "Sky", target: "Gökyüzü", pron: "skay" }, { source: "Sea", target: "Deniz", pron: "si" },
+            { source: "River", target: "Nehir", pron: "rivır" }, { source: "Mountain", target: "Dağ", pron: "mauntın" }, { source: "Road", target: "Yol", pron: "roud" }, { source: "Street", target: "Cadde", pron: "strit" }, { source: "Door", target: "Kapı", pron: "dor" },
+            { source: "Window", target: "Pencere", pron: "vindou" }, { source: "Chair", target: "Sandalye", pron: "çer" }, { source: "Table", target: "Masa", pron: "teybil" }, { source: "Bed", target: "Yatak", pron: "bed" }, { source: "Room", target: "Oda" },
+            { source: "Key", target: "Anahtar", pron: "ki" }, { source: "Clock", target: "Saat", pron: "klok" }, { source: "Computer", target: "Bilgisayar", pron: "kompyutır" }, { source: "Phone", target: "Telefon", pron: "foun" }, { source: "Pen", target: "Kalem" },
+            { source: "Paper", target: "Kağıt", pron: "peypır" }, { source: "Bag", target: "Çanta", pron: "beg" }, { source: "Shirt", target: "Gömlek", pron: "şört" }, { source: "Shoes", target: "Ayakkabı", pron: "şuz" }, { source: "Hat", target: "Şapka" },
+            { source: "Milk", target: "Süt", pron: "milk" }, { source: "Bread", target: "Ekmek", pron: "bred" }, { source: "Meat", target: "Et", pron: "mit" }, { source: "Fruit", target: "Meyve", pron: "frut" }, { source: "Cheese", target: "Peynir" },
+            { source: "Tea", target: "Çay", pron: "ti" }, { source: "Coffee", target: "Kahve", pron: "kofi" }, { source: "Sugar", target: "Şeker", pron: "şugır" }, { source: "Salt", target: "Tuz", pron: "solt" }, { source: "Egg", target: "Yumurta" },
+            { source: "Morning", target: "Sabah", pron: "mornin" }, { source: "Night", target: "Gece", pron: "nayt" }, { source: "Week", target: "Hafta", pron: "vik" }, { source: "Month", target: "Ay", pron: "manth" }, { source: "Year", target: "Yıl" },
+            { source: "Winter", target: "Kış", pron: "vintır" }, { source: "Summer", target: "Yaz", pron: "samır" }, { source: "Rain", target: "Yağmur", pron: "reyn" }, { source: "Snow", target: "Kar", pron: "snou" }, { source: "Wind", target: "Rüzgar" },
+            { source: "Fire", target: "Ateş", pron: "fayır" }, { source: "Ice", target: "Buz", pron: "ays" }, { source: "Gold", target: "Altın", pron: "gould" }, { source: "Silver", target: "Gümüş", pron: "silvır" }, { source: "Iron", target: "Demir" },
+            { source: "Child", target: "Çocuk", pron: "çayld" }, { source: "Family", target: "Aile", pron: "femili" }, { source: "Name", target: "İsim", pron: "neym" }, { source: "Home", target: "Ev", pron: "houm" }, { source: "Mother", target: "Anne" },
+            { source: "Father", target: "Baba", pron: "fadhır" }, { source: "Brother", target: "Erkek Kardeş", pron: "bradhır" }, { source: "Sister", target: "Kız Kardeş", pron: "sistır" }, { source: "Son", target: "Erkek Evlat", pron: "san" }, { source: "Daughter", target: "Kız Evlat" },
+            { source: "Doctor", target: "Doktor", pron: "daktır" }, { source: "Teacher", target: "Öğretmen", pron: "tiçır" }, { source: "Student", target: "Öğrenci", pron: "stüdınt" }, { source: "Police", target: "Polis", pron: "polis" }, { source: "Driver", target: "Sürücü" },
+            { source: "Shop", target: "Mağaza", pron: "şap" }, { source: "Market", target: "Pazar", pron: "markıt" }, { source: "Price", target: "Fiyat", pron: "prays" }, { source: "Ticket", target: "Bilet", pron: "tıkıt" }, { source: "Hotel", target: "Otel" },
+            { source: "Bus", target: "Otobüs", pron: "bas" }, { source: "Train", target: "Tren", pron: "treyn" }, { source: "Plane", target: "Uçak", pron: "pleyn" }, { source: "Ship", target: "Gemi", pron: "şip" }, { source: "Bicycle", target: "Bisiklet", pron: "baysıkıl" }
+        ],
+        orta: [
+            { source: "Develop", target: "Geliştirmek", pron: "divelop", lvl: "B1" }, { source: "Analyze", target: "Analiz etmek", pron: "enılayz", lvl: "B1" }, { source: "Challenge", target: "Meydan Okuma", pron: "çelınc", lvl: "B1" }, { source: "Decision", target: "Karar", pron: "disijın", lvl: "B1" }, { source: "Experience", target: "Tecrübe", pron: "ekspiryıns", lvl: "B1" },
+            { source: "Improve", target: "İlerletmek", pron: "impruv" }, { source: "Support", target: "Desteklemek", pron: "soport" }, { source: "Project", target: "Proje", pron: "procekt" }, { source: "Requirement", target: "Gereksinim", pron: "rikuayırmınt" }, { source: "Manage", target: "Yönetmek" },
+            { source: "Understand", target: "Anlamak", pron: "andırstend" }, { source: "Protect", target: "Korumak", pron: "protekt" }, { source: "Discover", target: "Keşfetmek", pron: "diskavır" }, { source: "Imagine", target: "Hayal etmek", pron: "imacin" }, { source: "Produce", target: "Üretmek" },
+            { source: "Create", target: "Yaratmak", pron: "krieyt" }, { source: "Explain", target: "Açıklamak", pron: "ekspleyn" }, { source: "Accept", target: "Kabul etmek", pron: "eksept" }, { source: "Receive", target: "Teslim almak", pron: "risiv" }, { source: "Provide", target: "Sağlamak" },
+            { source: "Believe", target: "İnanmak", pron: "biliv" }, { source: "Choose", target: "Seçmek", pron: "çuz" }, { source: "Compare", target: "Kıyaslamak", pron: "komper" }, { source: "Complain", target: "Şikayet etmek", pron: "kompleyn" }, { source: "Confirm", target: "Onaylamak" },
+            { source: "Consider", target: "Düşünmek / Taşınmak", pron: "kınsidır" }, { source: "Contain", target: "İçermek", pron: "kınteyn" }, { source: "Continue", target: "Devam etmek", pron: "kıntinyu" }, { source: "Convince", target: "İkna etmek", pron: "kınvins" }, { source: "Decide", target: "Karar vermek" },
+            { source: "Defend", target: "Savunmak", pron: "difend" }, { source: "Describe", target: "Tanımlamak", pron: "diskayb" }, { source: "Design", target: "Tasarım", pron: "dizayn" }, { source: "Destroy", target: "Yıkmak / Mahvetmek", pron: "distroy" }, { source: "Discuss", target: "Tartışmak" },
+            { source: "Encourage", target: "Teşvik etmek", pron: "enkarıc" }, { source: "Expect", target: "Beklemek / Ummak", pron: "ekspekt" }, { source: "Focus", target: "Odaklanmak", pron: "fokus" }, { source: "Forget", target: "Unutmak", pron: "fırget" }, { source: "Forgive", target: "Affetmek" },
+            { source: "Government", target: "Hükümet", pron: "gavırmınt" }, { source: "Healthy", target: "Sağlıklı", pron: "helthi" }, { source: "Ignore", target: "Görmezden gelmek", pron: "ignour" }, { source: "Include", target: "Dahil etmek", pron: "inklud" }, { source: "Increase", target: "Artırmak" },
+            { source: "Information", target: "Bilgi", pron: "infırmeyşın" }, { source: "Knowledge", target: "Bilgi / Birikim", pron: "nalıc" }, { source: "Language", target: "Dil", pron: "lenguıc" }, { source: "Maintain", target: "Sürdürmek / Bakım", pron: "meynteyn" }, { source: "Message", target: "Mesaj" },
+            { source: "National", target: "Ulusal", pron: "neşınıl" }, { source: "Necessary", target: "Gerekli", pron: "nesıseri" }, { source: "Notice", target: "Fark etmek", pron: "noutis" }, { source: "Object", target: "Nesne / İtiraz", pron: "obcekt" }, { source: "Opinion", target: "Fikir / Düşünce" },
+            { source: "Opportunity", target: "Fırsat", pron: "apartuniti" }, { source: "Patient", target: "Hasta / Sabırlı", pron: "peyşınt" }, { source: "Perform", target: "Sergilemek", pron: "pırform" }, { source: "Prepare", target: "Hazırlamak", pron: "priper" }, { source: "Purpose", target: "Amaç" },
+            { source: "Reason", target: "Sebep / Mantık", pron: "rizın" }, { source: "Recommend", target: "Önermek", pron: "rekomend" }, { source: "Reduce", target: "Azaltmak", pron: "ridyus" }, { source: "Refuse", target: "Reddetmek", pron: "rifyuz" }, { source: "Remember", target: "Hatırlamak" },
+            { source: "Remove", target: "Kaldırmak", pron: "rimuv" }, { source: "Reply", target: "Cevap vermek", pron: "riplay" }, { source: "Report", target: "Rapor etmek", pron: "riport" }, { source: "Request", target: "Talep etmek", pron: "rikuest" }, { source: "Resource", target: "Kaynak" },
+            { source: "Result", target: "Sonuç", pron: "rizalt" }, { source: "Satisfy", target: "Tatmin etmek", pron: "setisfay" }, { source: "Situation", target: "Durum", pron: "sitçueyşın" }, { source: "Society", target: "Toplum", pron: "sosayti" }, { source: "Solution", target: "Çözüm" },
+            { source: "Success", target: "Başarı", pron: "sakses" }, { source: "Suggest", target: "Önermek", pron: "saccest" }, { source: "Surprise", target: "Sürpriz", pron: "sırprayz" }, { source: "Technology", target: "Teknoloji", pron: "teknoloci" }, { source: "Tradition", target: "Gelenek" },
+            { source: "Travel", target: "Seyahat etmek", pron: "trevıl" }, { source: "Treatment", target: "Tedavi / Davranış", pron: "tritmınt" }, { source: "Value", target: "Değer", pron: "velyu" }, { source: "Various", target: "Çeşitli", pron: "veriyıs" }, { source: "Violence", target: "Şiddet" },
+            { source: "Weight", target: "Ağırlık", pron: "veyt" }, { source: "Weather", target: "Hava Durumu", pron: "vedhır" }, { source: "Warning", target: "Uyarı", pron: "vornin" }, { source: "Volunteer", target: "Gönüllü", pron: "volıntir" }, { source: "Vocabulary", target: "Kelime Haznesi" },
+            { source: "Urgent", target: "Acil", pron: "urcınt" }, { source: "Unfortunately", target: "Maalesef", pron: "anforçınıtli" }, { source: "Traffic", target: "Trafik", pron: "trefik" }, { source: "System", target: "Sistem", pron: "sistım" }, { source: "Surface", target: "Yüzey" },
+            { source: "Supply", target: "Tedarik etmek", pron: "suplay" }, { source: "Suffer", target: "Acı çekmek", pron: "safır" }, { source: "Structure", target: "Yapı", pron: "strakçır" }, { source: "Stranger", target: "Yabancı", pron: "streincır" }, { source: "Source", target: "Kaynak", pron: "sors" }
+        ],
+        ileri: [
+            { source: "Accurate", target: "Kesin / Tam", pron: "ekyurıt", lvl: "C1" }, { source: "Ambiguous", target: "Belirsiz / Muğlak", pron: "embigyuıs", lvl: "C1" }, { source: "Collaborate", target: "İş birliği yapmak", pron: "kılâbıreyt", lvl: "C1" }, { source: "Comprehensive", target: "Kapsamlı", pron: "komprihensiv", lvl: "C1" }, { source: "Evaluate", target: "Değerlendirmek", pron: "ivalyueyt", lvl: "C1" },
+            { source: "Implement", target: "Uygulamak", pron: "impliment" }, { source: "Inevitable", target: "Kaçınılmaz", pron: "inevitıbıl" }, { source: "Innovation", target: "Yenilik", pron: "inoveyşın" }, { source: "Predict", target: "Tahmin etmek", pron: "pridikt" }, { source: "Sustainable", target: "Sürdürülebilir" },
+            { source: "Cognitive", target: "Bilişsel", pron: "kognitiv" }, { source: "Eloquent", target: "Ağzı laf yapan", pron: "elokuınt" }, { source: "Resilient", target: "Dirençli / Esnek", pron: "rizilyınt" }, { source: "Profound", target: "Derin / Esaslı", pron: "profaund" }, { source: "Ubiquitous", target: "Her yerde bulunan" },
+            { source: "Scarcity", target: "Kıtlık", pron: "skersiti" }, { source: "Pragmatic", target: "Faydacı", pron: "pregmetik" }, { source: "Volatile", target: "Değişken / Uçucu", pron: "volıtayl" }, { source: "Exacerbate", target: "Kötüleştirmek", pron: "egzasırbeyt" }, { source: "Alleviate", target: "Hafifletmek" },
+            { source: "Advocate", target: "Savunmak / Avukat", pron: "edvıkeyt" }, { source: "Biased", target: "Önyargılı", pron: "bayıst" }, { source: "Casualty", target: "Zayiat / Yaralı", pron: "kejulıti" }, { source: "Coerce", target: "Zorlamak / Baskı", pron: "koers" }, { source: "Compensation", target: "Tazminat" },
+            { source: "Deceptive", target: "Aldatıcı", pron: "diseptiv" }, { source: "Deficit", target: "Açık (Bütçe vb.)", pron: "defisit" }, { source: "Deliberate", target: "Kasıtlı / Bilerek", pron: "delibırıt" }, { source: "Depict", target: "Tasvir etmek", pron: "dipikt" }, { source: "Deteriorate", target: "Kötüye gitmek" },
+            { source: "Discrepancy", target: "Çelişki / Tutarsızlık", pron: "diskrepınsi" }, { source: "Distinction", target: "Ayrım / Fark", pron: "distinkşın" }, { source: "Diverse", target: "Çeşitli / Farklı", pron: "dayvörs" }, { source: "Drastic", target: "Köklü / Sert", pron: "drastik" }, { source: "Empirical", target: "Deneysel / Teori dışı" },
+            { source: "Enhance", target: "Geliştirmek / Artırmak", pron: "enhens" }, { source: "Equivalent", target: "Eşdeğer", pron: "ikuivılınt" }, { source: "Eradicate", target: "Kökünü kazımak", pron: "eradıkeyt" }, { source: "Execute", target: "İdam / Yürütmek", pron: "eksikyut" }, { source: "Feasible", target: "Mümkün / Yapılabilir" },
+            { source: "Fluctuate", target: "Dalgalanmak", pron: "flakçueyt" }, { source: "Formidable", target: "Dişli / Korkulan", pron: "formidıbıl" }, { source: "Haphazard", base: "Rastgele", pron: "hethezırd" }, { source: "Hypothesis", target: "Hipotez", pron: "haypathısıs" }, { source: "Illusion", target: "Yanılsama" },
+            { source: "Immense", target: "Devasa / Çok büyük", pron: "imens" }, { source: "Incentive", target: "Teşvik / Dürtü", pron: "insentiv" }, { source: "Indifferent", target: "Kayıtsız / Umursamaz", pron: "indıfrınt" }, { source: "Indigenous", target: "Yerli", pron: "indicınıs" }, { source: "Inherent", target: "Doğasında olan" },
+            { source: "Initiate", target: "Başlatmak", pron: "inişieyt" }, { source: "Insight", target: "İçgörü / Kavrayış", pron: "insayt" }, { source: "Intense", target: "Yoğun / Şiddetli", pron: "intens" }, { source: "Interfere", target: "Müdahale etmek", pron: "intırfir" }, { source: "Jeopardize", target: "Tehlikeye atmak" },
+            { source: "Legitimate", target: "Meşru / Yasal", pron: "licitımıt" }, { source: "Lucrative", target: "Karlı / Kazançlı", pron: "lukrıtiv" }, { source: "Manifest", target: "Açıkça göstermek", pron: "menifest" }, { source: "Ambition", target: "Hırs / İdeal", pron: "embişın" }, { source: "Mutual", target: "Karşılıklı" },
+            { source: "Negligible", target: "Göz ardı edilebilir", pron: "neglıcıbıl" }, { source: "Obsolete", target: "Modası geçmiş", pron: "obsolit" }, { source: "Obstacle", target: "Engel", pron: "obstıkıl" }, { source: "Overlook", target: "Gözden kaçırmak", pron: "ouvırluk" }, { source: "Paradox", target: "Çelişki" },
+            { source: "Perceive", target: "Algılamak", pron: "pırsiv" }, { source: "Plausible", target: "Akla yatkın", pron: "plozıbıl" }, { source: "Prejudice", target: "Önyargı", pron: "precudis" }, { source: "Prevalent", target: "Yaygın", pron: "prevılınt" }, { source: "Reluctant", target: "Gönülsüz" },
+            { source: "Scrutinize", target: "İnce eleyip sık dokumak", pron: "skrutınayz" }, { source: "Subtle", target: "Hafif / Hemen fark edilmeyen", pron: "satıl" }, { source: "Tangible", target: "Somut", pron: "tencıbıl" }, { source: "Thrive", target: "Gelişmek / Serpilmek", pron: "thrayv" }, { source: "Unprecedented", target: "Eşi benzeri görülmemiş" },
+            { source: "Vague", target: "Belirsiz / Net olmayan", pron: "veyg" }, { source: "Vulnerable", target: "Savunmasız / Hassas", pron: "valnırıbıl" }, { source: "Yield", target: "Ürün vermek / Getiri", pron: "yild" }, { source: "Abundant", target: "Bol / Bereketli", pron: "ıbandınt" }, { source: "Accumulate", target: "Biriktirmek" },
+            { source: "Adhere", target: "Bağlı kalmak / Yapışmak", pron: "edhir" }, { source: "Amplify", target: "Sesini artırmak / Büyütmek", pron: "emplifay" }, { source: "Barren", target: "Çorak / Verimsiz", pron: "berın" }, { source: "Catastrophe", target: "Afet / Felaket", pron: "ketestrıfi" }, { source: "Chronological", target: "Zaman dizini" },
+            { source: "Commence", target: "Başlamak", pron: "kımens" }, { source: "Conscious", target: "Bilinçli", pron: "kanşıs" }, { source: "Deprive", target: "Mahrum bırakmak", pron: "diprayv" }, { source: "Devastate", target: "Yerle bir etmek", pron: "devısteyt" }, { source: "Eminent", target: "Seçkin / Ünlü" },
+            { source: "Fabricate", target: "Uydurmak / İmal etmek", pron: "febrikeyt" }, { source: "Hostile", target: "Düşmanca", pron: "hastayl" }, { source: "Ingenious", target: "Dahice / Kıvrak", pron: "incinyıs" }, { source: "Linger", target: "Oyalanmak / Gitmemek", pron: "lingır" }, { source: "Malicious", target: "Kötü niyetli" },
+            { source: "Meticulous", target: "Titiz / Özenli", pron: "mitikyulıs" }, { source: "Obscure", target: "Anlaşılması güç / Silik", pron: "obskyur" }, { source: "Sanction", target: "Yaptırım / Onay", pron: "senkşın" }, { source: "Simultaneous", target: "Eşzamanlı", pron: "saymılteynyıs" }, { source: "Turbulent", target: "Çalkantılı / Fırtınalı" }
+        ],
+        teknik: [
+            { source: "Algorithm", target: "Algoritma", pron: "algoridım", lvl: "Teknik" }, { source: "Database", target: "Veri tabanı", pron: "deytıbeys", lvl: "Teknik" }, { source: "Interface", target: "Arayüz", pron: "intırfeys", lvl: "Teknik" }, { source: "Execution", target: "Çalıştırma", pron: "eksikyuşın", lvl: "Teknik" }, { source: "Framework", target: "Altyapı / Çatı", pron: "freymvörk", lvl: "Teknik" },
+            { source: "Variables", target: "Değişkenler", pron: "veriyabılz" }, { source: "Function", target: "Fonksiyon", pron: "fankşın" }, { source: "Compiler", target: "Derleyici", pron: "kompaylır" }, { source: "Deployment", target: "Dağıtım / Canlıya alma", pron: "diploymınt" }, { source: "Encryption", target: "Şifreleme" },
+            { source: "Array", target: "Dizi", pron: "erey" }, { source: "Inheritance", target: "Kalıtım", pron: "inherıtıns" }, { source: "Asynchronous", target: "Eşzamansız", pron: "esinkronıs" }, { source: "Middleware", target: "Ara katman", pron: "midılver" }, { source: "Repository", target: "Depo" },
+            { source: "Bandwidth", target: "Bant Genişliği", pron: "bendvidth" }, { source: "Band", target: "Frekans / Kuşak", pron: "bend" }, { source: "Cache", target: "Önbellek", pron: "keş" }, { source: "Backend", target: "Arka Plan Sistem", pron: "bekend" }, { source: "Frontend", target: "Önyüz Sistem" },
+            { source: "Protocol", target: "Protokol", pron: "protokol" }, { source: "Server", target: "Sunucu", pron: "sırvır" }, { source: "Client", target: "İstemci", pron: "klayınt" }, { source: "Bandpass", target: "Bant Geçiren", pron: "bendpes" }, { source: "Frequency", target: "Frekans" },
+            { source: "Amplitude", target: "Genlik", pron: "emplitüd" }, { source: "Signal", target: "Sinyal", pron: "signıl" }, { source: "Circuit", target: "Devre", pron: "sırkıt" }, { source: "Resistor", target: "Direnç Elemanı", pron: "rezistır" }, { source: "Capacitor", target: "Kondansatör" },
+            { source: "Inductor", target: "Bobin", pron: "indaktır" }, { source: "Voltage", target: "Gerilim / Voltaj", pron: "volteyc" }, { source: "Current", target: "Akım", pron: "karınt" }, { source: "Power", target: "Güç", pron: "pauır" }, { source: "Energy", target: "Enerji" },
+            { source: "Transmitter", target: "Verici", pron: "trenzmitır" }, { source: "Receiver", target: "Alıcı", pron: "risivır" }, { source: "Antenna", target: "Anten", pron: "antenı" }, { source: "Modulation", target: "Modülasyon", pron: "modyuleyşın" }, { source: "Demodulation", target: "Demodülasyon" },
+            { source: "Filter", target: "Filtre", pron: "filtır" }, { source: "Noise", target: "Gürültü / Parazit", pron: "noyz" }, { source: "Interference", target: "Girişim / Karışma", pron: "intırfırıns" }, { source: "Spectrum", target: "Tayf / Spektrum", pron: "spektrım" }, { source: "Radiation", target: "Radyasyon" },
+            { source: "Wavelength", target: "Dalga Boyu", pron: "veyvlenth" }, { source: "Velocity", target: "Hız (Vektörel)", pron: "velositi" }, { source: "Acceleration", target: "İvme", pron: "ekselıreyşın" }, { source: "Force", target: "Kuvvet", pron: "fors" }, { source: "Mass", target: "Kütle" },
+            { source: "Gravity", target: "Yerçekimi", pron: "greviti" }, { source: "Density", target: "Yoğunluk", pron: "densiti" }, { source: "Volume", target: "Hacim", pron: "volyum" }, { source: "Pressure", target: "Basınç", pron: "preşır" }, { source: "Temperature", target: "Sıcaklık" },
+            { source: "Thermodynamics", target: "Termodinamik", pron: "thermodynamiks" }, { source: "Entropy", target: "Entropi", pron: "entropi" }, { source: "Enthalpy", target: "Entalpi", pron: "enthalpi" }, { source: "Equilibrium", target: "Denge", pron: "ekuilibriyım" }, { source: "Kinetics", target: "Kinetik" },
+            { source: "Catalyst", target: "Katalizör", pron: "ketalist" }, { source: "Reaction", target: "Tepkime", pron: "rieakşın" }, { source: "Matrix", target: "Matris", pron: "meytriks" }, { source: "Vector", target: "Vektör", pron: "vektır" }, { source: "Tensor", target: "Tensör" },
+            { source: "Gradient", target: "Eğim / Gradyan", pron: "grediyınt" }, { source: "Divergence", target: "Iraksama", pron: "dayvörcıns" }, { source: "Integral", target: "İntegral", pron: "intıgrıl" }, { source: "Derivative", target: "Türev", pron: "derivativ" }, { source: "Differential", target: "Diferansiyel" },
+            { source: "Equation", target: "Denklem", pron: "ikueyşın" }, { source: "Simulation", target: "Benzetim / Simülasyon", pron: "simüleyşın" }, { source: "Optimization", target: "Eniyileme / Optimizasyon", pron: "optimizeyşın" }, { source: "Stochastic", target: "Olasılıksal", pron: "stokestik" }, { source: "Deterministic", target: "Belirlenimli" },
+            { source: "Hardware", target: "Donanım", pron: "hardver" }, { source: "Software", target: "Yazılım", pron: "softver" }, { source: "Firmware", target: "Tümleşik Donanım Yazılımı", pron: "fırmver" }, { source: "Microcontroller", target: "Mikrodenetleyici", pron: "maykrokontrolır" }, { source: "Processor", target: "İşlemci" },
+            { source: "Memory", target: "Bellek", pron: "memori" }, { source: "Storage", target: "Depolama", pron: "storıc" }, { source: "Network", target: "Ağ", pron: "netvörk" }, { source: "Routing", target: "Yönlendirme", pron: "rautin" }, { source: "Switching", target: "Anahtarlama" },
+            { source: "Gateway", target: "Geçit yolu", pron: "geytvey" }, { source: "Firewall", target: "Güvenlik Duvarı", pron: "fayırvol" }, { source: "Vulnerability", target: "Güvenlik Açığı", pron: "valnırıbiliti" }, { source: "Authentication", target: "Kimlik Doğrulama", pron: "otentikeyşın" }, { source: "Authorization", target: "Yetkilendirme" },
+            { source: "Biometrics", target: "Biyometri", pron: "bayometriks" }, { source: "Cryptography", target: "Şifreleme Bilimi", pron: "kriptografi" }, { source: "Decryption", target: "Şifre Çözme", pron: "dikripşın" }, { source: "Hash", target: "Özet Fonksiyonu / Karma", pron: "heş" }, { source: "Node", target: "Düğüm" },
+            { source: "Cluster", target: "Küme", pron: "klastır" }, { source: "Redundancy", target: "Yedeklilik / Fazlalık", pron: "ridandınsi" }, { source: "Latency", target: "Gecikme Süresi", pron: "leytınsi" }, { source: "Throughput", target: "Verim / İş çıkarma", pron: "thruput" }, { source: "Topology", target: "Topoloji", pron: "topoloci" }
+        ]
     };
 
-    // 🚀 DİNAMİK OLARAK GERÇEK 500 BENZERSİZ KELİME TÜRETEN VE HAFIZAYI ŞİŞİRMEYEN ANALİZ MOTORU
-    const db_entr = { giris: [], orta: [], ileri: [], teknik: [] };
-    const db_artr = { giris: [], orta: [], ileri: [], teknik: [] };
-
-    function buildReal500Pool(sourceDb, targetDb, isArabic) {
-        ['giris', 'orta', 'ileri', 'teknik'].forEach(c => {
-            const list = sourceDb[c];
-            for (let i = 0; i < 500; i++) {
-                const seed = list[i % list.length];
-                const num = i + 1;
-                
-                // Her kelime tamamen benzersiz bir ID ve anlama sahip, gerçek birer karttır.
-                targetDb[c].push({
-                    source: isArabic ? `${seed[0]} _${num}` : `${seed[0]} #${num}`,
-                    target: `${seed[1]} (No: ${num})`,
-                    pron: seed[2],
-                    lvl: c.toUpperCase() + " - " + num
-                });
-            }
-        });
-    }
-    buildReal500Pool(seeds.entr, db_entr, false);
-    buildReal500Pool(seeds.artr, db_artr, true);
+    const db_artr = {
+        giris: [
+            { source: "تفاحة", target: "Elma", pron: "Tuffahah", lvl: "Giriş" }, { source: "ماء", target: "Su", pron: "Maa'", lvl: "Giriş" }, { source: "كتاب", target: "Kitap", pron: "Kitaab", lvl: "Giriş" }, { source: "سيارة", target: "Araba", pron: "Sayyaarah", lvl: "Giriş" }, { source: "بيت", target: "Ev", pron: "Bayt", lvl: "Giriş" },
+            { source: "وقت", target: "Zaman", pron: "Waqt" }, { source: "رجل", target: "Adam", pron: "Rajul" }, { source: "امرأة", target: "Kadın", pron: "Imra'ah" }, { source: "ولد", target: "Oğlan", pron: "Walad" }, { source: "بنت", target: "Kız", pron: "Bint" },
+            { source: "صديق", target: "Arkadaş", pron: "Sadeeq" }, { source: "مدرسة", target: "Okul", pron: "Madrasah" }, { source: "طعام", target: "Yemek", pron: "Ta'am" }, { source: "مال", target: "Para", pron: "Maal" }, { source: "عمل", target: "İş", pron: "Amal" },
+            { source: "حياة", target: "Hayat", pron: "Hayah" }, { source: "يد", target: "El", pron: "Yad" }, { source: "عين", target: "Göz", pron: "Ayn" }, { source: "مدينة", target: "Şehir", pron: "Madinah" }, { source: "بلد", target: "Ülke", pron: "Balad" },
+            { source: "شمس", target: "Güneş", pron: "Shams" }, { source: "قمر", target: "Ay", pron: "Qamar" }, { source: "شجرة", target: "Ağaç", pron: "Shajarah" }, { source: "زهرة", target: "Çiçek", pron: "Zahrah" }, { source: "قطة", target: "Kedi", pron: "Qittah" },
+            { source: "كلب", target: "Köpek", pron: "Kalb" }, { source: "طائر", target: "Kuş", pron: "Ta'ir" }, { source: "سمك", target: "Balık", pron: "Samak" }, { source: "سماء", target: "Gökyüzü", pron: "Sama'" }, { source: "بحر", target: "Deniz", pron: "Bahr" },
+            { source: "نهر", target: "Nehir", pron: "Nahr" }, { source: "جبل", target: "Dağ", pron: "Jabal" }, { source: "طريق", target: "Yol", pron: "Tarieq" }, { source: "شارع", target: "Cadde", pron: "Shari'" }, { source: "باب", target: "Kapı", pron: "Baab" },
+            { source: "نافذة", target: "Pencere", pron: "Nafizah" }, { source: "كرسي", target: "Sandalye", pron: "Kursi" }, { source: "طاولة", target: "Masa", pron: "Tawilah" }, { source: "سرير", target: "Yatak", pron: "Sarir" }, { source: "غرفة", target: "Oda" },
+            { source: "مفتاح", target: "Anahtar", pron: "Miftah" }, { source: "ساعة", target: "Saat", pron: "Sa'ah" }, { source: "حاسوب", target: "Bilgisayar", pron: "Hasoob" }, { source: "هاتف", target: "Telefon", pron: "Hatif" }, { source: "قلم", target: "Kalem" },
+            { source: "ورقة", target: "Kağıt", pron: "Waraqah" }, { source: "حقيبة", target: "Çanta", pron: "Haqibah" }, { source: "قميص", target: "Gömlek", pron: "Qamis" }, { source: "حذاء", target: "Ayakkabı", pron: "Hitha'" }, { source: "قبعة", target: "Şapka" },
+            { source: "حليب", target: "Süt", pron: "Halib" }, { source: "خبز", target: "Ekmek", pron: "Khubz" }, { source: "لحم", target: "Et", pron: "Lahm" }, { source: "فاكهة", target: "Meyve", pron: "Fakihah" }, { source: "جبن", target: "Peynir" },
+            { source: "شاي", target: "Çay", pron: "Shay" }, { source: "قهوة", target: "Kahve", pron: "Qahwah" }, { source: "سكر", target: "Şeker", pron: "Sukkar" }, { source: "ملح", target: "Tuz", pron: "Milh" }, { source: "بيض", target: "Yumurta" },
+            { source: "صباح", target: "Sabah", pron: "Sabah" }, { source: "مساء", target: "Akşam", pron: "Masa'" }, { source: "ليل", target: "Gece", pron: "Layl" }, { source: "يوم", target: "Gün", pron: "Yawm" }, { source: "أسبوع", target: "Hafta" },
+            { source: "شهر", target: "Ay", pron: "Shahr" }, { source: "سنة", target: "Yıl", pron: "Sanah" }, { source: "شتاء", target: "Kış", pron: "Shita'" }, { source: "صيف", target: "Yaz", pron: "Sayf" }, { source: "مطر", target: "Yağmur" },
+            { source: "ثلج", target: "Kar", pron: "Thalj" }, { source: "ريح", target: "Rüzgar", pron: "Rieh" }, { source: "نار", target: "Ateş", pron: "Naar" }, { source: "ثلج_بارد", target: "Buz", pron: "Thalj" }, { source: "ذهب", target: "Altın" },
+            { source: "فضة", target: "Gümüş", pron: "Fiddah" }, { source: "حديد", target: "Demir", pron: "Hadid" }, { source: "طفل", target: "Çocuk", pron: "Tifl" }, { source: "عائلة", target: "Aile", pron: "A'ilah" }, { source: "اسم", target: "İsim" },
+            { source: "أم", target: "Anne", pron: "Umm" }, { source: "أب", target: "Baba", pron: "Ab" }, { source: "أخ", target: "Erkek Kardeş", pron: "Akh" }, { source: "أخت", target: "Kız Kardeş", pron: "Ukht" }, { source: "ابن", target: "Erkek Evlat" },
+            { source: "ابنة", target: "Kız Evlat", pron: "Ibnah" }, { source: "طبيب", target: "Doktor", pron: "Tabib" }, { source: "معلم", target: "Öğretmen", pron: "Mu'allim" }, { source: "طالب", target: "Öğrenci", pron: "Talib" }, { source: "شرطة", target: "Polis" },
+            { source: "سائق", target: "Sürücü", pron: "Sa'iq" }, { source: "دكان", target: "Mağaza", pron: "Dukkan" }, { source: "سوق", target: "Pazar", pron: "Sooq" }, { source: "سعر", target: "Fiyat", pron: "Si'r" }, { source: "تذكرة", target: "Bilet" },
+            { source: "فندق", target: "Otel", pron: "Funduq" }, { source: "حافلة", target: "Otobüs", pron: "Hafilah" }, { source: "قطار", target: "Tren", pron: "Qitar" }, { source: "طائرة", target: "Uçak", pron: "Ta'irah" }, { source: "سفينة", target: "Gemi", pron: "Safinah" }
+        ],
+        orta: [
+            { source: "طوّر", target: "Geliştirmek", pron: "Tawwar", lvl: "Orta" }, { source: "حلل", target: "Analiz etmek", pron: "Hallal", lvl: "Orta" }, { source: "تحدي", target: "Meydan Okuma", pron: "Tahaddi", lvl: "Orta" }, { source: "قرار", target: "Karar", pron: "Qarar", lvl: "Orta" }, { source: "خبرة", target: "Tecrübe", pron: "Khibrah", lvl: "Orta" },
+            { source: "تحسين", target: "İlerletmek", pron: "Tahseen" }, { source: "دعم", target: "Desteklemek", pron: "Da'am" }, { source: "مشروع", target: "Proje", pron: "Mashroo'" }, { source: "متطلبات", target: "Gereksinim", pron: "Mutatallabat" }, { source: "إدارة", target: "Yönetmek" },
+            { source: "فهم", target: "Anlamak", pron: "Fahm" }, { source: "حماية", target: "Korumak", pron: "Himayah" }, { source: "اكتشاف", target: "Keşfetmek", pron: "Iktishaf" }, { source: "تخيل", target: "Hayal etmek", pron: "Takhayyul" }, { source: "إنتاج", target: "Üretmek" },
+            { source: "إبداع", target: "Yaratmak", pron: "Ibda'" }, { source: "شرح", target: "Açıklamak", pron: "Sharh" }, { source: "قبول", target: "Kabul etmek", pron: "Qabool" }, { source: "استلام", target: "Teslim almak", pron: "Istilam" }, { source: "توفير", target: "Sağlamak" },
+            { source: "اعتقاد", target: "İnanmak", pron: "I'tiqad" }, { source: "اختيار", target: "Seçmek", pron: "Ikhtiyar" }, { source: "مقارنة", target: "Kıyaslamak", pron: "Muqaranah" }, { source: "شكوى", target: "Şikayet etmek", pron: "Shakwa" }, { source: "تأكيد", target: "Onaylamak" },
+            { source: "تفكير", target: "Düşünmek", pron: "Tafkir" }, { source: "احتواء", target: "İçermek", pron: "Ihtiwa'" }, { source: "استمرار", target: "Devam etmek", pron: "Istimrar" }, { source: "إقناع", target: "İkna etmek", pron: "Iqna'" }, { source: "عزم", target: "Karar vermek" },
+            { source: "دفاع", target: "Savunmak", pron: "Difa'" }, { source: "وصف", target: "Tanımlamak", pron: "Wasf" }, { source: "تصميم", target: "Tasarım", pron: "Tasmim" }, { source: "تدمير", target: "Yıkmak / Mahvetmek", pron: "Tadmier" }, { source: "نقاش", target: "Tartışmak" },
+            { source: "تشجيع", target: "Teşvik etmek", pron: "Tashjie'" }, { source: "توقع", target: "Beklemek / Ummak", pron: "Tawaqqu'" }, { source: "تركيز", target: "Odaklanmak", pron: "Tarkiz" }, { source: "نسيان", target: "Unutmak", pron: "Nisyan" }, { source: "مسامحة", target: "Affetmek" },
+            { source: "حكومة", target: "Hükümet", pron: "Hukoomah" }, { source: "صحي", target: "Sağlıklı", pron: "Sihhi" }, { source: "تجاهل", target: "Görmezden gelmek", pron: "Tajahul" }, { source: "تضمين", target: "Dahil etmek", pron: "Tadmin" }, { source: "زيادة", target: "Artırmak" },
+            { source: "معلومات", target: "Bilgi", pron: "Ma'lumat" }, { source: "معرفة", target: "Bilgi / Birikim", pron: "Ma'rifah" }, { source: "لغة", target: "Dil", pron: "Lughah" }, { source: "الحفاظ", target: "Sürdürmek / Bakım", pron: "Hifadh" }, { source: "رسالة", target: "Mesaj" },
+            { source: "وطني", target: "Ulusal", pron: "Watani" }, { source: "ضروري", target: "Gerekli", pron: "Daroori" }, { source: "ملاحظة", target: "Fark etmek", pron: "Mulahadhah" }, { source: "شيء", target: "Nesne / İtiraz", pron: "Shay'" }, { source: "رأي", target: "Fikir / Düşünce" },
+            { source: "فرصة", target: "Fırsat", pron: "Fursah" }, { source: "صابر", target: "Sabırlı / Hasta", pron: "Sabir" }, { source: "أداء", target: "Sergilemek", pron: "Ada'" }, { source: "تجهيز", target: "Hazırlamak", pron: "Tajhiz" }, { source: "هدف", target: "Amaç" },
+            { source: "سبب", target: "Sebep / Mantık", pron: "Sabab" }, { source: "توصية", target: "Önermek", pron: "Tawsiyah" }, { source: "تقليل", target: "Azaltmak", pron: "Taqleel" }, { source: "رفض", target: "Reddetmek", pron: "Rafd" }, { source: "تذكر", target: "Hatırlamak" },
+            { source: "إزالة", target: "Kaldırmak", pron: "Izalah" }, { source: "رد", target: "Cevap vermek", pron: "Radd" }, { source: "تقرير", target: "Rapor etmek", pron: "Taqrier" }, { source: "طلب", target: "Talep etmek", pron: "Talab" }, { source: "مصدر", target: "Kaynak" },
+            { source: "نتيجة", target: "Sonuç", pron: "Natijah" }, { source: "إرضاء", target: "Tatmin etmek", pron: "Irda'" }, { source: "موقف", target: "Durum", pron: "Mawqif" }, { source: "مجتمع", target: "Toplum", pron: "Mujtama'" }, { source: "حل", target: "Çözüm" },
+            { source: "نجاح", target: "Başarı", pron: "Najah" }, { source: "اقتراح", target: "Önermek", pron: "Iqtirah" }, { source: "مفاجأة", target: "Sürpriz", pron: "Mufaja'ah" }, { source: "تكنولوجيا", target: "Teknoloji", pron: "Teknolojiya" }, { source: "تقليد", target: "Gelenek" },
+            { source: "سفر", target: "Seyahat etmek", pron: "Safar" }, { source: "علاج", target: "Tedavi / Davranış", pron: "Ilaj" }, { source: "قيمة", target: "Değer", pron: "Qimah" }, { source: "متنوع", target: "Çeşitli", pron: "Mutanawwi'" }, { source: "عنف", target: "Şiddet" },
+            { source: "وزن", target: "Ağırlık", pron: "Wazn" }, { source: "طقس", target: "Hava Durumu", pron: "Taqs" }, { source: "تحذير", target: "Uyarı", pron: "Tahthier" }, { source: "متطوع", target: "Gönüllü", pron: "Mutatawwi'" }, { source: "مفردات", target: "Kelime Haznesi" },
+            { source: "عاجل", target: "Acil", pron: "Ajil" }, { source: "للأسف", target: "Maalesef", pron: "Lil-asaf" }, { source: "مرور", target: "Trafik", pron: "Muroor" }, { source: "نظام", target: "Sistem", pron: "Nidham" }, { source: "سطح", target: "Yüzey" },
+            { source: "تزويد", target: "Tedarik etmek", pron: "Tazwied" }, { source: "معاناة", target: "Acı çekmek", pron: "Mu'anah" }, { source: "هيكل", target: "Yapı", pron: "Haykal" }, { source: "غريب", target: "Yabancı", pron: "Gharieb" }, { source: "منبع", target: "Kaynak", pron: "Manba'" }
+        ],
+        ileri: [
+            { source: "دقيق", target: "Kesin / Tam", pron: "Daqeeq", lvl: "İleri" }, { source: "غامض", target: "Belirsiz / Muğlak", pron: "Ghamid", lvl: "İleri" }, { source: "تعاون", target: "İş birliği yapmak", pron: "Ta'awan", lvl: "İleri" }, { source: "شامل", target: "Kapsamlı", pron: "Shamil", lvl: "İleri" }, { source: "تقييم", target: "Değerlendirmek", pron: "Taqyeem", lvl: "İleri" },
+            { source: "تطبيق", target: "Uygulamak", pron: "Tatbeeq" }, { source: "حتمي", target: "Kaçınılmaz", pron: "Hatmi" }, { source: "ابتكار", target: "Yenilik", pron: "Ibtikar" }, { source: "تنبؤ", target: "Tahmin etmek", pron: "Tanabbu'" }, { source: "مستدام", target: "Sürdürülebilir" },
+            { source: "معرفي", target: "Bilişsel", pron: "Ma'rifi" }, { source: "فصيح", target: "Ağzı laf yapan", pron: "Faseeh" }, { source: "مرن", target: "Dirençli / Esnek", pron: "Marin" }, { source: "عميق", target: "Derin / Esaslı", pron: "Ameeq" }, { source: "شائع", target: "Her yerde bulunan" },
+            { source: "ندرة", target: "Kıtlık", pron: "Nudrah" }, { source: "عملي", target: "Faydacı", pron: "Amali" }, { source: "متقلب", target: "Değişken / Uçucu", pron: "Mutaqallib" }, { source: "تفاقم", target: "Kötüleştirmek", pron: "Tafaqqum" }, { source: "تخفيف", target: "Hafifletmek" },
+            { source: "تأييد", target: "Savunmak / Avukat", pron: "Tayied" }, { source: "منحاز", target: "Önyargılı", pron: "Munhaz" }, { source: "ضحية", target: "Zayiat / Yaralı", pron: "Dahiyyah" }, { source: "إكراه", target: "Zorlamak / Baskı", pron: "Ikrah" }, { source: "تعويض", target: "Tazminat" },
+            { source: "مخادع", target: "Aldatıcı", pron: "Mukhadie'" }, { source: "عجز", target: "Açık (Bütçe vb.)", pron: "Ajz" }, { source: "متعمد", target: "Kasıtlı / Bilerek", pron: "Mutu'ammid" }, { source: "تصوير", target: "Tasvir etmek", pron: "Taswier" }, { source: "تدهور", target: "Kötüye gitmek" },
+            { source: "تضارب", target: "Çelişki / Tutarsızlık", pron: "Tadarub" }, { source: "تميز", target: "Ayrım / Fark", pron: "Tamayyuz" }, { source: "متنوع_جدا", target: "Çeşitli / Farklı", pron: "Mutanawwi'" }, { source: "شديد", target: "Köklü / Sert", pron: "Shadied" }, { source: "تجريبي", target: "Deneysel" },
+            { source: "تعزيز", target: "Geliştirmek / Artırmak", pron: "Ta'ziez" }, { source: "مكافئ", target: "Eşdeğer", pron: "Mukafi'" }, { source: "استئصال", target: "Kökünü kazımak", pron: "Isti'sal" }, { source: "تنفيذ_صارم", target: "İdam / Yürütmek", pron: "Tanfeeth" }, { source: "ممكن", target: "Mümkün / Yapılabilir" },
+            { source: "تقلب_مستمر", target: "Dalgalanmak", pron: "Taqallub" }, { source: "هائل", target: "Dişli / Korkulan", pron: "Ha'il" }, { source: "عشوائي", target: "Rastgele", pron: "Ashwa'i" }, { source: "فرضية", target: "Hipotez", pron: "Fardiyyah" }, { source: "وهم", target: "Yanılsama" },
+            { source: "ضخم", target: "Devasa / Çok büyük", pron: "Dakhm" }, { source: "حافز", target: "Teşvik / Dürtü", pron: "Hafiz" }, { source: "لا مبالي", target: "Kayıtsız / Umursamaz", pron: "La Mubali" }, { source: "أصلي", target: "Yerli", pron: "Asli" }, { source: "متأصل", target: "Doğasında olan" },
+            { source: "بدء", target: "Başaratmak", pron: "Bad'" }, { source: "بصيرة", target: "İçgörü / Kavrayış", pron: "Basierah" }, { source: "قوي", target: "Yoğun / Şiddetli", pron: "Qawi" }, { source: "تدخل", target: "Müdahale etmek", pron: "Tadakhul" }, { source: "خطر", target: "Tehlikeye atmak" },
+            { source: "شرعي", target: "Meşru / Yasal", pron: "Shar'i" }, { source: "مربح", target: "Karlı / Kazançlı", pron: "Murbih" }, { source: "واضح", target: "Açıkça göstermek", pron: "Wadih" }, { source: "طموح", target: "Hırs / İdeal", pron: "Tamooh" }, { source: "متبادل", target: "Karşılıklı" },
+            { source: "ضئيل", target: "Göz ardı edilebilir", pron: "Da'il" }, { source: "مهجور", target: "Modası geçmiş", pron: "Mahjoor" }, { source: "عقبة", target: "Engel", pron: "Aqabah" }, { source: "تغاضي", target: "Gözden kaçırmak", pron: "Taghadi" }, { source: "تناقض", target: "Çelişki" },
+            { source: "إدراك", target: "Algılamak", pron: "Idrak" }, { source: "معقول", target: "Akla yatkın", pron: "Ma'qool" }, { source: "تحيز", target: "Önyargı", pron: "Tahayyuz" }, { source: "سائد", target: "Yaygın", pron: "Sa'id" }, { source: "متردد", target: "Gönülsüz" },
+            { source: "تدقيق_عميق", target: "İnce eleyip sık dokumak", pron: "Tadqieq" }, { source: "خفي", target: "Hafif / Hemen fark edilmeyen", pron: "Khafi" }, { source: "ملموس", target: "Somut", pron: "Malmoos" }, { source: "ازدهار", target: "Gelişmek / Serpilmek", pron: "Izdihar" }, { source: "غير مسبوق", target: "Eşi benzeri görülmemiş" },
+            { source: "مبهم", target: "Belirsiz / Net olmayan", pron: "Mubham" }, { source: "حساس", target: "Savunmasız / Hassas", pron: "Hassas" }, { source: "إنتاجية", target: "Ürün vermek / Getiri", pron: "Intajiyyah" }, { source: "وفير", target: "Bol / Bereketli", pron: "Wafier" }, { source: "تراكم", target: "Biriktirmek" },
+            { source: "التزام", target: "Bağlı kalmak / Yapışmak", pron: "Iltizam" }, { source: "تضخيم", target: "Sesini artırmak / Büyütmek", pron: "Tadkhim" }, { source: "قاحل", target: "Çorak / Verimsiz", pron: "Qahil" }, { source: "كارثة", target: "Afet / Felaket", pron: "Karithah" }, { source: "تاريخي", target: "Zaman dizini" },
+            { source: "مباشرة", target: "Başlamak", pron: "Mubasharah" }, { source: "واعي", target: "Bilinçli", pron: "Wa'i" }, { source: "حرمان", target: "Mahrum bırakmak", pron: "Hirman" }, { source: "تدمير_شامل", target: "Yerle bir etmek", pron: "Tadmier" }, { source: "بارز", target: "Seçkin / Ünlü" },
+            { source: "افتعال", target: "Uydurmak / İmal etmek", pron: "Iftial" }, { source: "عدائي", target: "Düşmanca", pron: "Ada'i" }, { source: "عبقري", target: "Dahice / Kıvrak", pron: "Abqari" }, { source: "تباطؤ", target: "Oyalanmak / Gitmemek", pron: "Tabato'" }, { source: "خبيث", target: "Kötü niyetli" },
+            { source: "دقيق_جدا", target: "Titiz / Özenli", pron: "Daqieq" }, { source: "مظلم", target: "Anlaşılması güç / Silik", pron: "Mudhlim" }, { source: "عقوبة", target: "Yaptırım / Onay", pron: "Uqoobah" }, { source: "متزامن", target: "Eşzamanlı", pron: "Mutazamin" }, { source: "مضطرب", target: "Çalkantılı / Fırtınalı" }
+        ],
+        teknik: [
+            { source: "خوارزمية", target: "Algoritma", pron: "Khwarizmiyyah", lvl: "Teknik" }, { source: "قاعدة بيانات", target: "Veri tabanı", pron: "Qa'idat Bayanat", lvl: "Teknik" }, { source: "واجهة", target: "Arayüz", pron: "Wajahah", lvl: "Teknik" }, { source: "تنفيذ", target: "Çalıştırma", pron: "Tanfeeth", lvl: "Teknik" }, { source: "إطار عمل", target: "Altyapı / Çatı", pron: "Itar Amal", lvl: "Teknik" },
+            { source: "متغيرات", target: "Değişkenler", pron: "Mutaghayyirat" }, { source: "دالة", target: "Fonksiyon", pron: "Dallah" }, { source: "مترجم", target: "Derleyici", pron: "Mutarjim" }, { source: "نشر", target: "Dağıtım / Canlıya alma", pron: "Nashr" }, { source: "تشفير", target: "Şifreleme" },
+            { source: "مصفوفة", target: "Dizi", pron: "Masfoofah" }, { source: "وراثة", target: "Kalıtım", pron: "Wirathah" }, { source: "غير متزامن", target: "Eşzamansız", pron: "Ghayr Mutazamin" }, { source: "برمجيات وسيطة", target: "Ara katman", pron: "Barmajiyyat" }, { source: "مستودع", target: "Depo" },
+            { source: "عرض النطاق", target: "Bant Genişliği", pron: "Ard An-Nitaq" }, { source: "نطاق", target: "Frekans / Kuşak", pron: "Nitaq" }, { source: "ذاكرة مخبئية", target: "Önbellek", pron: "Thakirah" }, { source: "خلفية", target: "Arka Plan Sistem", pron: "Khalfiyyah" }, { source: "واجهة_أمامية", target: "Önyüz Sistem" },
+            { source: "بروتوكول", target: "Protokol", pron: "Brotoquol" }, { source: "خادم", target: "Sunucu", pron: "Khadim" }, { source: "عميل", target: "İstemci", pron: "Amiel" }, { source: "تمرير النطاق", target: "Bant Geçiren", pron: "Tamrier" }, { source: "تردد", target: "Frekans" },
+            { source: "سعة", target: "Genlik", pron: "Si'ah" }, { source: "إشارة", target: "Sinyal", pron: "Isharah" }, { source: "دائرة", target: "Devre", pron: "Da'irah" }, { source: "مقاومة", target: "Direnç Elemanı", pron: "Muqawamah" }, { source: "مكثف", target: "Kondansatör" },
+            { source: "ملف", target: "Bobin", pron: "Milaf" }, { source: "جهد", target: "Gerilim / Voltaj", pron: "Jahd" }, { source: "تيار", target: "Akım", pron: "Tayyar" }, { source: "قدرة", target: "Güç", pron: "Qudrah" }, { source: "طاقة", target: "Enerji" },
+            { source: "جهاز إرسال", target: "Verici", pron: "Jihaz Irsal" }, { source: "جهاز استقبال", target: "Alıcı", pron: "Jihaz Istiqbal" }, { source: "هوائي", target: "Anten", pron: "Hawa'i" }, { source: "تعديل", target: "Modülasyon", pron: "Ta'diel" }, { source: "فك التعديل", target: "Demodülasyon" },
+            { source: "مرشح", target: "Filtre", pron: "Murashih" }, { source: "ضوضاء", target: "Gürültü / Parazit", pron: "Dawda'" }, { source: "تداخل_إشارة", target: "Girişim / Karışma", pron: "Tadakhul" }, { source: "طيف", target: "Tayf / Spektrum", pron: "Tayf" }, { source: "إشعاع", target: "Radyasyon" },
+            { source: "طول موجi", target: "Dalga Boyu", pron: "Tool Mawji" }, { source: "سرعة", target: "Hız (Vektörel)", pron: "Sur'ah" }, { source: "تسارع", target: "İvme", pron: "Tasaaru'" }, { source: "قوة", target: "Kuvvet", pron: "Quwwah" }, { source: "كتلة", target: "Kütle" },
+            { source: "جاذبية", target: "Yerçekimi", pron: "Jathibiyyah" }, { source: "كثافة", target: "Yoğunluk", pron: "Kathafah" }, { source: "حجم", target: "Hacim", pron: "Hajm" }, { source: "ضغط", target: "Basınç", pron: "Dagt" }, { source: "درجة حرارة", target: "Sıcaklık" },
+            { source: "ديناميكا حرارية", target: "Termodinamik", pron: "Dinamika" }, { source: "اعتلال", target: "Entropi", pron: "I'tilal" }, { source: "محتوى حراري", target: "Entalpi", pron: "Muhtawa" }, { source: "توازن", target: "Denge", pron: "Tawazun" }, { source: "حركية", target: "Kinetik" },
+            { source: "حافز_كيميائي", target: "Katalizör", pron: "Hafiz" }, { source: "تفاعل", target: "Tepkime", pron: "Tafa'ul" }, { source: "مصفوفة_رياضية", target: "Matris", pron: "Masfoofah" }, { source: "متجه", target: "Vektör", pron: "Mutajahi" }, { source: "موتر", target: "Tensör" },
+            { source: "تدرج", target: "Eğim / Gradyan", pron: "Tadaruj" }, { source: "تباعد", target: "Iraksama", pron: "Tabau'd" }, { source: "تكامل", target: "İntegral", pron: "Takamul" }, { source: "مشتقة", target: "Türev", pron: "Mushtaqqah" }, { source: "تفاضل", target: "Diferansiyel" },
+            { source: "معادلة", target: "Denklem", pron: "Mu'adalah" }, { source: "محاكاة", target: "Benzetim / Simülasyon", pron: "Muhakah" }, { source: "تحسين_النظام", target: "Eniyileme / Optimizasyon", pron: "Tahseen" }, { source: "عشوائي_إحصائي", target: "Olasılıksal", pron: "Ashwa'i" }, { source: "حتمي_رياضي", target: "Belirlenimli" },
+            { source: "عتاد", target: "Donanım", pron: "Atad" }, { source: "برمجيات", target: "Yazılım", pron: "Barmajiyyat" }, { source: "برنامج ثابت", target: "Tümleşik Donanım Yazılımı", pron: "Barnamaj" }, { source: "متحكم دقيق", target: "Mikrodenetleyici", pron: "Mutahakkim" }, { source: "معالج", target: "İşlemci" },
+            { source: "ذاكرة", target: "Bellek", pron: "Thakirah" }, { source: "تخزين", target: "Depolama", pron: "Takhzien" }, { source: "شبكة", target: "Ağ", pron: "Shabakah" }, { source: "توجيه", target: "Yönlendirme", pron: "Tawjieh" }, { source: "تحويل", target: "Anahtarlama" },
+            { source: "بوابة", target: "Geçit yolu", pron: "Bawabah" }, { source: "جدار حماية", target: "Güvenlik Duvarı", pron: "Jidar" }, { source: "ثغرة أمنية", target: "Güvenlik Açığı", pron: "Thaghrah" }, { source: "مصادقة", target: "Kimlik Doğrulama", pron: "Musadaqah" }, { source: "تفويض", target: "Yetkilendirme" },
+            { source: "مؤشرات حيوية", target: "Biyometri", pron: "Mu'ashirat" }, { source: "علم التعمية", target: "Şifreleme Bilimi", pron: "Ilm" }, { source: "فك التشفير", target: "Şifre Çözme", pron: "Fak" }, { source: "دالة كاش", target: "Özet Fonksiyonu / Karma", pron: "Dallah" }, { source: "عقدة", target: "Düğüm" },
+            { source: "عنقود", target: "Küme", pron: "Unquod" }, { source: "وفرة", target: "Yedeklilik / Fazlalık", pron: "Wafrah" }, { source: "زمن الاستجابة", target: "Gecikme Süresi", pron: "Zaman" }, { source: "معدل النقل", target: "Verim / İş çıkarma", pron: "Mu'addal" }, { source: "بنية الشبكة", target: "Topoloji", pron: "Binyah" }
+        ]
+    };
 
     // Uygulama Durum Yönetimi
     let currentMode = localStorage.getItem('pwa_work_mode') || 'entr'; 
     let cat = 'giris', idx = -1;
     let isMuted = localStorage.getItem('pwa_muted') === 'true';
     
-    let lrnData = JSON.parse(localStorage.getItem('pwa_lrn_universal_v3')) || {
+    let lrnData = JSON.parse(localStorage.getItem('pwa_lrn_universal_v4')) || {
         entr: { giris:[], orta:[], ileri:[], teknik:[] },
         artr: { giris:[], orta:[], ileri:[], teknik:[] }
     };
@@ -324,9 +430,6 @@
         let wordText = document.getElementById('w-en').innerText;
         if (wordText === "Bitti! 🎉" || wordText === "-" || wordText.includes("Yok")) return;
 
-        // Okuma motorunun # ve _ gibi indeks işaretlerini okumaması için temizlik
-        wordText = wordText.replace(/[#_\d]+/g, '').replace(/[\(\)]/g, '').trim();
-
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(wordText);
         
@@ -379,7 +482,7 @@
             idx = currentTestData.indexOf(w);
             
             document.getElementById('w-en').innerText = w.source;
-            document.getElementById('w-lvl').innerText = `Test: ${w.lvl}`;
+            document.getElementById('w-lvl').innerText = "Sınav";
             document.getElementById('w-tr').innerText = w.target;
             document.getElementById('w-pron').innerText = `[${w.pron}]`;
         } else {
@@ -394,7 +497,7 @@
             idx = activeDb[cat].findIndex(x => x.source === w.source);
             
             document.getElementById('w-en').innerText = w.source;
-            document.getElementById('w-lvl').innerText = w.lvl;
+            document.getElementById('w-lvl').innerText = cat.toUpperCase();
             document.getElementById('w-tr').innerText = w.target;
             document.getElementById('w-pron').innerText = `[${w.pron}]`;
         }
@@ -408,7 +511,7 @@
         const w = activeDb[cat][idx].source;
         if (!lrnData[currentMode][cat].includes(w)) {
             lrnData[currentMode][cat].push(w);
-            localStorage.setItem('pwa_lrn_universal_v3', JSON.stringify(lrnData));
+            localStorage.setItem('pwa_lrn_universal_v4', JSON.stringify(lrnData));
         }
         nextW();
     }
@@ -418,7 +521,7 @@
         const w = currentTestData[idx];
         
         lrnData[currentMode][w.originalCat] = lrnData[currentMode][w.originalCat].filter(x => x !== w.source);
-        localStorage.setItem('pwa_lrn_universal_v3', JSON.stringify(lrnData));
+        localStorage.setItem('pwa_lrn_universal_v4', JSON.stringify(lrnData));
         
         currentTestData.splice(idx, 1);
         nextW();
@@ -470,7 +573,7 @@
             } else {
                 lrnData[currentMode][cat] = [];
             }
-            localStorage.setItem('pwa_lrn_universal_v3', JSON.stringify(lrnData));
+            localStorage.setItem('pwa_lrn_universal_v4', JSON.stringify(lrnData));
             if(cat === 'test') buildTestPool();
             nextW();
         }
